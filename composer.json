@@ -1,0 +1,18 @@
+{
+    "name": "mordilion/configurable",
+    "description": "A library to make your classes configurable",
+    "keywords": ["configurable", "class configuration"],
+    "homepage": "http://github.com/mordilion/Configurable",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Henning Huncke",
+            "email": "mordilion@gmx.de",
+            "homepage": "http://www.devjunkie.de"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.0"
+    }
+}
