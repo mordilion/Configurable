@@ -31,6 +31,23 @@ abstract class ConfigurableAbstract implements ConfigurableInterface
 
 
     /**
+     * This method will add an additional configuration to the existing one.
+     *
+     * @param mixed $configuration
+     *
+     * @return ConfigurableInterface
+     */
+    public function addConfiguration($configuration)
+    {
+        $oldConfiguration = $this->configuration;
+
+        $this->setConfiguration($configuration);
+
+        $oldConfiguration->merge($this->configuration);
+        $this->configuration = $oldConfiguration;
+    }
+
+    /**
      * This method returns the current configuration.
      *
      * @return mixed
@@ -49,13 +66,7 @@ abstract class ConfigurableAbstract implements ConfigurableInterface
      */
     public function setConfiguration($configuration)
     {
-        $newConfiguration = ConfigurationFactory::build($configuration);
-
-        if ($this->configuration instanceof Configuration) {
-            $this->configuration->merge($newConfiguration);
-        } else {
-            $this->configuration = $newConfiguration;
-        }
+        $this->configuration = ConfigurationFactory::build($configuration);
 
         foreach ($this->configuration as $key => $value) {
             $method   = 'set' . ucfirst($key);
