@@ -37,7 +37,7 @@ abstract class ConfigurableAbstract implements ConfigurableInterface
      */
     public function getConfiguration()
     {
-        $this->configuration;
+        return $this->configuration;
     }
 
     /**
