@@ -38,7 +38,7 @@ class ConfigurationFactory
         } else if ($object instanceof Zend\Config\Config) {
             return self::buildByArray($object->toArray());
         } else {
-            throw new InvalidArgumentException('The provided object is not supported!');
+            throw new \InvalidArgumentException('The provided object is not supported!');
         }
     }
 
