@@ -3,7 +3,7 @@
 /**
  * This file is part of the Mordilion\Configurable package.
  *
- * For the full copzright and license information, please view the
+ * For the full copyright and license information, please view the
  * LICENSE file that was distributed with this source code.
  *
  * @copyright (c) Henning Huncke - <mordilion@gmx.de>
@@ -29,6 +29,14 @@ class Configuration implements ConfigurationInterface
     /**
      * {@inheritdoc}
      */
+    public function __construct(array $data)
+    {
+        $this->data = $data;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function __get($name)
     {
         return $this->get($name);
@@ -40,6 +48,27 @@ class Configuration implements ConfigurationInterface
     public function __set($name, $value)
     {
         $this->set($name, $value);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function configure($object)
+    {
+        if (!is_object($object)) {
+            throw new \InvalidArgumentException('The provided Object is not an Object!');
+        }
+
+        foreach ($this as $key => $value) {
+            $method   = 'set' . ucfirst($key);
+            $property = lcfirst($key);
+
+            if (method_exists($object, $method)) {
+                $this->$method($value);
+            } else if (property_exists($object, $property)) {
+                $this->$property = $value;
+            }
+        }
     }
 
     /**
@@ -68,14 +97,6 @@ class Configuration implements ConfigurationInterface
     public function getIterator()
     {
         return new \ArrayIterator($this->data);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function load(array $data)
-    {
-        $this->data = $data;
     }
 
     /**

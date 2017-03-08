@@ -3,7 +3,7 @@
 /**
  * This file is part of the Mordilion\Configurable package.
  *
- * For the full copzright and license information, please view the
+ * For the full copyright and license information, please view the
  * LICENSE file that was distributed with this source code.
  *
  * @copyright (c) Henning Huncke - <mordilion@gmx.de>
@@ -12,8 +12,6 @@
 namespace Mordilion\Configurable;
 
 use Mordilion\Configurable\ConfigurableInterface;
-use Mordilion\Configurable\Configuration;
-use Mordilion\Configurable\ConfigurationFactory;
 
 /**
  * Mordilion\Configurable Configurable-Abstract-Class.
@@ -25,32 +23,29 @@ abstract class ConfigurableAbstract implements ConfigurableInterface
     /**
      * The configuration of the object.
      *
-     * @var Configuration
+     * @var ConfigurationInterface
      */
     protected $configuration;
 
 
     /**
-     * This method will add an additional configuration to the existing one.
-     *
-     * @param mixed $configuration
-     *
-     * @return ConfigurableInterface
+     * {@inheritdoc}
      */
-    public function addConfiguration($configuration)
+    public function addConfiguration(ConfigurationInterface $configuration)
     {
-        $oldConfiguration = $this->configuration;
+        $config = $this->configuration;
 
-        $this->setConfiguration($configuration);
+        if ($config instanceof ConfigurationInterface) {
+            $config->merge($configuration);
+        } else {
+            $config = $configuration;
+        }
 
-        $oldConfiguration->merge($this->configuration);
-        $this->configuration = $oldConfiguration;
+        $this->setConfiguration($config);
     }
 
     /**
-     * This method returns the current configuration.
-     *
-     * @return mixed
+     * {@inheritdoc}
      */
     public function getConfiguration()
     {
@@ -58,25 +53,11 @@ abstract class ConfigurableAbstract implements ConfigurableInterface
     }
 
     /**
-     * This method will configure the object with the provided configuration.
-     *
-     * @param mixed $configuration
-     *
-     * @return ConfigurableInterface
+     * {@inheritdoc}
      */
-    public function setConfiguration($configuration)
+    public function setConfiguration(ConfigurationInterface $configuration)
     {
-        $this->configuration = ConfigurationFactory::build($configuration);
-
-        foreach ($this->configuration as $key => $value) {
-            $method   = 'set' . ucfirst($key);
-            $property = lcfirst($key);
-
-            if (method_exists($this, $method)) {
-                $this->$method($value);
-            } else if (property_exists($this, $property)) {
-                $this->$property = $value;
-            }
-        }
+        $this->configuration = $configuration;
+        $this->configuration->configure($this);
     }
 }

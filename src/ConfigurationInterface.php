@@ -3,7 +3,7 @@
 /**
  * This file is part of the Mordilion\Configurable package.
  *
- * For the full copzright and license information, please view the
+ * For the full copyright and license information, please view the
  * LICENSE file that was distributed with this source code.
  *
  * @copyright (c) Henning Huncke - <mordilion@gmx.de>
@@ -18,6 +18,15 @@ namespace Mordilion\Configurable;
  */
 interface ConfigurationInterface extends \IteratorAggregate, \Countable
 {
+    /**
+     * Constructor.
+     *
+     * @param array $data
+     *
+     * @return void
+     */
+    public function __construct(array $data);
+
     /**
      * Magic __get-Method.
      *
@@ -38,6 +47,17 @@ interface ConfigurationInterface extends \IteratorAggregate, \Countable
     public function __set($name, $value);
 
     /**
+     * Configures the provided object with the current data.
+     *
+     * @param Object $object
+     *
+     * @throws InvalidArgumentException If the provided $object is not an object.
+     *
+     * @return void
+     */
+    public function configure($object);
+
+    /**
      * {@inheritdoc}
      */
     public function count();
@@ -56,15 +76,6 @@ interface ConfigurationInterface extends \IteratorAggregate, \Countable
      * {@inheritdoc}
      */
     public function getIterator();
-
-    /**
-     * This method will load the provided $data into the configuration object.
-     *
-     * @param array $data
-     *
-     * @return ConfigurationInterface
-     */
-    public function load(array $data);
 
     /**
      * Merges the current configuration with the provided configuration.
