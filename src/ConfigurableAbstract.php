@@ -49,7 +49,13 @@ abstract class ConfigurableAbstract implements ConfigurableInterface
      */
     public function setConfiguration($configuration)
     {
-        $this->configuration = ConfigurationFactory::build($configuration);
+        $newConfiguration = ConfigurationFactory::build($configuration);
+
+        if ($this->configuration instanceof Configuration) {
+            $this->configuration->merge($newConfiguration);
+        } else {
+            $this->configuration = $newConfiguration;
+        }
 
         foreach ($this->configuration as $key => $value) {
             $method   = 'set' . ucfirst($key);

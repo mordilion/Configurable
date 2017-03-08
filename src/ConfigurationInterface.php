@@ -67,6 +67,15 @@ interface ConfigurationInterface extends \IteratorAggregate, \Countable
     public function load(array $data);
 
     /**
+     * Merges the current configuration with the provided configuration.
+     *
+     * @param ConfigurationInterface $configuration
+     *
+     * @return void
+     */
+    public function merge(ConfigurationInterface $configuration);
+
+    /**
      * Sets the $value for the provided $key.
      *
      * @param mixed $key

@@ -81,6 +81,16 @@ class Configuration implements ConfigurationInterface
     /**
      * {@inheritdoc}
      */
+    public function merge(ConfigurationInterface $configuration)
+    {
+        foreach ($configuration as $key => $value) {
+            $this->set($key, $value);
+        }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function set($key, $value)
     {
         $this->data[$key] = $value;
