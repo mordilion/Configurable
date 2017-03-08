@@ -12,6 +12,11 @@
             "homepage": "http://www.devjunkie.de"
         }
     ],
+    "autoload": {
+        "psr-4": {
+            "Mordilion\\Configurable\\": "src/"
+        }
+    },
     "require": {
         "php": ">=5.3.0"
     }
