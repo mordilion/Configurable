@@ -64,9 +64,9 @@ class Configuration implements ConfigurationInterface
             $property = lcfirst($key);
 
             if (method_exists($object, $method)) {
-                $this->$method($value);
+                $pbject->$method($value);
             } else if (property_exists($object, $property)) {
-                $this->$property = $value;
+                $object->$property = $value;
             }
         }
     }
