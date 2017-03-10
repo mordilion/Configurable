@@ -39,7 +39,7 @@ class Something extends ConfigurableAbstract
      */
     public function __construct($configuration = null)
     {
-        $this->defaults['setting2'] = new DateTime('now', 'America/Chicago');
+        $this->defaults['setting2'] = new \DateTime('now', 'America/Chicago');
         
         $this->setConfiguration(new Configuration($this->defaults));
         
@@ -65,11 +65,11 @@ class Something extends ConfigurableAbstract
     /**
      * Sets the value for setting2.
      *
-     * @param string $value
+     * @param \DateTime $value
      *
      * @return Something
      */
-    public function setSetting2($value)
+    public function setSetting2(\DateTime $value)
     {
         $this->configuration->set('setting2', $value); // or $this->configuration->setting2 = $value;
         
