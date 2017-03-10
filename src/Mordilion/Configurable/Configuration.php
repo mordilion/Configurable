@@ -29,9 +29,19 @@ class Configuration implements ConfigurationInterface
     /**
      * {@inheritdoc}
      */
-    public function __construct(array $data)
+    public function __construct($data)
     {
-        $this->data = $data;
+        if (is_object($data)) {
+            if (method_exists($data, 'toArray')) {
+                $data = $data->toArray(); // Zend_Config | Zend\Config\Config | ...
+            }
+        }
+
+        if (!is_array($data)) {
+            throw new \InvalidArgumentException('The provided data must be an array or an object with the toArray() method.');
+        }
+
+        $this->data = (array)$data;
     }
 
     /**

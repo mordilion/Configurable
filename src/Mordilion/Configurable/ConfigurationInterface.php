@@ -21,11 +21,13 @@ interface ConfigurationInterface extends \IteratorAggregate, \Countable
     /**
      * Constructor.
      *
-     * @param array $data
+     * @param array|obejct $data
+     *
+     * @throws \InvalidArgumentException if the provided data are not an array or not an object with the toArray() method
      *
      * @return void
      */
-    public function __construct(array $data);
+    public function __construct($data);
 
     /**
      * Magic __get-Method.
