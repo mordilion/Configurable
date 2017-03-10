@@ -57,6 +57,10 @@ abstract class ConfigurableAbstract implements ConfigurableInterface
      */
     public function setConfiguration(ConfigurationInterface $configuration)
     {
+        if ($this->configuration instanceof ConfigurationInterface) {
+            unset($this->configuration); // destroy the old
+        }
+
         $this->configuration = $configuration;
         $this->configuration->configure($this);
     }
