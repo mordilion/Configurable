@@ -123,13 +123,4 @@ interface ConfigurationInterface extends \IteratorAggregate, \Countable
      * @return array
      */
     public function toArray();
-
-    /**
-     * Unsets the record for the provided $key.
-     *
-     * @param mixed $key
-     *
-     * @return ConfigurationInterface
-     */
-    public function unset($key);
 }

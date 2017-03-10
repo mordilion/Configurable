@@ -74,7 +74,7 @@ class Configuration implements ConfigurationInterface
      */
     public function __unset($name)
     {
-        $this->unset($name);
+        unset($this->data[name]);
     }
 
     /**
@@ -176,17 +176,4 @@ class Configuration implements ConfigurationInterface
 
         return $result;
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function unset($key)
-    {
-        if (isset($this->data[$key])) {
-            unset($this->data[$key]);
-        }
-
-        return $this;
-    }
-
 }
