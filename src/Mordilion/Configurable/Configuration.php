@@ -57,7 +57,7 @@ class Configuration implements ConfigurationInterface
      */
     public function __isset($name)
     {
-        $this->isset($name);
+        return isset($this->data[$name]);
     }
 
 
@@ -126,14 +126,6 @@ class Configuration implements ConfigurationInterface
     public function getIterator()
     {
         return new \ArrayIterator($this->data);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function isset($key)
-    {
-        return isset($this->data[$key]);
     }
 
     /**

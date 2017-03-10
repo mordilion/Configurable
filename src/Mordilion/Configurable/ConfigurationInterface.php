@@ -99,15 +99,6 @@ interface ConfigurationInterface extends \IteratorAggregate, \Countable
     public function getIterator();
 
     /**
-     * Returns true if there is a record with the provided $key, otherwise it returns false.
-     *
-     * @param mixed $key
-     *
-     * @return boolean
-     */
-    public function isset($key);
-
-    /**
      * Merges the current configuration with the provided configuration.
      *
      * @param ConfigurationInterface $configuration
