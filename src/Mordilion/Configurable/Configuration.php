@@ -55,9 +55,26 @@ class Configuration implements ConfigurationInterface
     /**
      * {@inheritdoc}
      */
+    public function __isset($name)
+    {
+        $this->isset($name);
+    }
+
+
+    /**
+     * {@inheritdoc}
+     */
     public function __set($name, $value)
     {
         $this->set($name, $value);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function __unset($name)
+    {
+        $this->unset($name);
     }
 
     /**
@@ -79,6 +96,8 @@ class Configuration implements ConfigurationInterface
                 $object->$property = $value;
             }
         }
+
+        return $this;
     }
 
     /**
@@ -112,11 +131,29 @@ class Configuration implements ConfigurationInterface
     /**
      * {@inheritdoc}
      */
+    public function isset($key)
+    {
+        return isset($this->data[$key]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function merge(ConfigurationInterface $configuration)
     {
         foreach ($configuration as $key => $value) {
-            $this->set($key, $value);
+            if (isset($this->data[$key])) {
+                if ($value instanceof ConfigurationInterface && $this->data[$key] instanceof ConfigurationInterface) {
+                    $this->data[$key]->merge($value);
+                } else {
+                    $this->set($key, $value);
+                }
+            } else {
+                $this->set($key, $value);
+            }
         }
+
+        return $this;
     }
 
     /**
@@ -125,5 +162,39 @@ class Configuration implements ConfigurationInterface
     public function set($key, $value)
     {
         $this->data[$key] = $value;
+
+        return $this;
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function toArray()
+    {
+        $result = array();
+        $data   = $this->data;
+
+        foreach ($data as $key => $value) {
+            if ($value instanceof self) {
+                $result[$key] = $value->toArray();
+            } else {
+                $result[$key] = $value;
+            }
+        }
+
+        return $result;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function unset($key)
+    {
+        if (isset($this->data[$key])) {
+            unset($this->data[$key]);
+        }
+
+        return $this;
+    }
+
 }

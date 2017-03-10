@@ -39,6 +39,15 @@ interface ConfigurationInterface extends \IteratorAggregate, \Countable
     public function __get($name);
 
     /**
+     * Magic __isset-Method.
+     *
+     * @param mixed $name
+     *
+     * @return bool
+     */
+    public function __isset($name)
+
+    /**
      * Magic __set-Method.
      *
      * @param mixed $name
@@ -49,13 +58,23 @@ interface ConfigurationInterface extends \IteratorAggregate, \Countable
     public function __set($name, $value);
 
     /**
+     * Magic __unset-Method.
+     *
+     * @param mixed $name
+     * @param mixed $valu
+     *
+     * @return void
+     */
+    public function __unset($name);
+
+    /**
      * Configures the provided object with the current data.
      *
      * @param Object $object
      *
      * @throws InvalidArgumentException If the provided $object is not an object.
      *
-     * @return void
+     * @return ConfigurationInterface
      */
     public function configure($object);
 
@@ -80,11 +99,20 @@ interface ConfigurationInterface extends \IteratorAggregate, \Countable
     public function getIterator();
 
     /**
+     * Returns true if there is a record with the provided $key, otherwise it returns false.
+     *
+     * @param mixed $key
+     *
+     * @return boolean
+     */
+    public function isset($key);
+
+    /**
      * Merges the current configuration with the provided configuration.
      *
      * @param ConfigurationInterface $configuration
      *
-     * @return void
+     * @return ConfigurationInterface
      */
     public function merge(ConfigurationInterface $configuration);
 
@@ -94,7 +122,23 @@ interface ConfigurationInterface extends \IteratorAggregate, \Countable
      * @param mixed $key
      * @param mixed $value
      *
-     * @return void
+     * @return ConfigurationInterface
      */
     public function set($key, $value);
+
+    /**
+     * Returns the current configuration as an array.
+     *
+     * @return array
+     */
+    public function toArray();
+
+    /**
+     * Unsets the record for the provided $key.
+     *
+     * @param mixed $key
+     *
+     * @return ConfigurationInterface
+     */
+    public function unset($key);
 }
