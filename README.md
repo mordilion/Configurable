@@ -21,8 +21,11 @@ class Something extends ConfigurableAbstract
         'setting3' => 12345
     );
     
-    private $setting1;
-    public $setting2;
+    /**
+     * A public property.
+     *
+     * @var integer
+     */
     public $setting3;
     
     /**
@@ -54,7 +57,21 @@ class Something extends ConfigurableAbstract
      */
     public function setSetting1($value)
     {
-        $this->setting1 = $value;
+        $this->configuration->set('setting1', $value);
+        
+        return $this;
+    }
+    
+    /**
+     * Sets the value for setting2.
+     *
+     * @param string $value
+     *
+     * @return Something
+     */
+    public function setSetting2($value)
+    {
+        $this->configuration->set('setting2', $value); // or $this->configuration->setting2 = $value;
         
         return $this;
     }
