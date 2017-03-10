@@ -45,7 +45,7 @@ interface ConfigurationInterface extends \IteratorAggregate, \Countable
      *
      * @return bool
      */
-    public function __isset($name)
+    public function __isset($name);
 
     /**
      * Magic __set-Method.
