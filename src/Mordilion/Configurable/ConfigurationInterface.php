@@ -27,7 +27,7 @@ interface ConfigurationInterface extends \IteratorAggregate, \Countable
      *
      * @return void
      */
-    public function __construct($data);
+    public function __construct($data = array());
 
     /**
      * Magic __get-Method.

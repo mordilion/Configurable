@@ -29,7 +29,7 @@ class Configuration implements ConfigurationInterface
     /**
      * {@inheritdoc}
      */
-    public function __construct($data)
+    public function __construct($data = array())
     {
         if (is_object($data)) {
             if (method_exists($data, 'toArray')) {

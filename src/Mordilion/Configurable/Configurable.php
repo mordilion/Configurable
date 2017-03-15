@@ -14,11 +14,11 @@ namespace Mordilion\Configurable;
 use Mordilion\Configurable\ConfigurableInterface;
 
 /**
- * Mordilion\Configurable Configurable-Abstract-Class.
+ * Mordilion\Configurable Configurable-Trait.
  *
  * @author Henning Huncke <mordilion@gmx.de>
  */
-abstract class ConfigurableAbstract implements ConfigurableInterface
+trait Configurable
 {
     /**
      * The configuration of the object.
@@ -29,10 +29,18 @@ abstract class ConfigurableAbstract implements ConfigurableInterface
 
 
     /**
-     * {@inheritdoc}
+     * This method will add the provided configuration to the object configuration.
+     *
+     * @param mixed $configuration
+     *
+     * @return ConfigurableInterface
      */
-    public function addConfiguration(ConfigurationInterface $configuration)
+    public function addConfiguration($configuration)
     {
+        if (!$configuration instanceof ConfigurationInterface) {
+            $configuration = new Configuration($configuration);
+        }
+
         $config = $this->configuration;
 
         if ($config instanceof ConfigurationInterface) {
@@ -45,7 +53,9 @@ abstract class ConfigurableAbstract implements ConfigurableInterface
     }
 
     /**
-     * {@inheritdoc}
+     * This method returns the current configuration.
+     *
+     * @return ConfigurationInterface
      */
     public function getConfiguration()
     {
@@ -53,12 +63,20 @@ abstract class ConfigurableAbstract implements ConfigurableInterface
     }
 
     /**
-     * {@inheritdoc}
+     * This method will configure the object with the provided configuration.
+     *
+     * @param mixed $configuration
+     *
+     * @return ConfigurableInterface
      */
-    public function setConfiguration(ConfigurationInterface $configuration)
+    public function setConfiguration($configuration)
     {
+        if (!$configuration instanceof ConfigurationInterface) {
+            $configuration = new Configuration($configuration);
+        }
+
         if ($this->configuration instanceof ConfigurationInterface) {
-            unset($this->configuration); // destroy the old
+            unset($this->configuration); // destroy the old one
         }
 
         $this->configuration = $configuration;
