@@ -5,11 +5,17 @@ Configurable is a small library to make each class configurable with different k
 ```php
 <?php
 
-use Mordilion\Configurable\ConfigurableAbstract;
+use Mordilion\Configurable\Configurable;
 use Mordilion\Configurable\Configuration;
 
-class Something extends ConfigurableAbstract
+class Something
 {
+    /**
+     * Use the following traits.
+     */
+    use Configurable;
+    
+    
     /**
      * Default configuration settings.
      *
