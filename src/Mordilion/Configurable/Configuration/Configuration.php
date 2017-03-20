@@ -33,7 +33,7 @@ class Configuration implements ConfigurationInterface
     {
         if (is_object($data)) {
             if (method_exists($data, 'toArray')) {
-                $data = $data->toArray(); // Zend_Config | Zend\Config\Config | ...
+                $data = $data->toArray();
             }
         }
 
@@ -59,7 +59,6 @@ class Configuration implements ConfigurationInterface
     {
         return isset($this->data[$name]);
     }
-
 
     /**
      * {@inheritdoc}
