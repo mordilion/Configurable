@@ -11,7 +11,7 @@
 
 namespace Mordilion\Configurable;
 
-use Mordilion\Configurable\ConfigurableInterface;
+use Mordilion\Configurable\Configuration\ConfigurableInterface;
 
 /**
  * Mordilion\Configurable Configurable-Trait.

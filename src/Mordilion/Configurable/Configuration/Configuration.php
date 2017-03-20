@@ -9,7 +9,7 @@
  * @copyright (c) Henning Huncke - <mordilion@gmx.de>
  */
 
-namespace Mordilion\Configurable;
+namespace Mordilion\Configurable\Configuration;
 
 /**
  * Mordilion\Configurable Configuration-Class.

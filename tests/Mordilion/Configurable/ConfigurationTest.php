@@ -1,12 +1,12 @@
 <?php
 
-require_once 'Mordilion/Configurable/ConfigurationInterface.php';
-require_once 'Mordilion/Configurable/Configuration.php';
+require_once 'Mordilion/Configurable/Configuration/ConfigurationInterface.php';
+require_once 'Mordilion/Configurable/Configuration/Configuration.php';
 
 use PHPUnit\Framework\TestCase;
 
 use Mordilion\Configurable\Configurable;
-use Mordilion\Configurable\Configuration;
+use Mordilion\Configurable\Configuration\Configuration;
 
 class ConfigurationTest extends TestCase
 {
