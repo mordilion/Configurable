@@ -12,11 +12,11 @@
 namespace Mordilion\Configurable\Configuration\Reader;
 
 /**
- * Mordilion\Configurable Json-Class.
+ * Mordilion\Configurable Ini-Class.
  *
  * @author Henning Huncke <mordilion@gmx.de>
  */
-class Json implements ReaderInterface
+class Ini implements ReaderInterface
 {
     /**
      * {@inheritdoc}
@@ -49,27 +49,31 @@ class Json implements ReaderInterface
     }
 
     /**
-     * Decodes the provided $json into an object or an array.
+     * Decodes the provided $yaml into an object or an array.
      *
-     * @param string $json
+     * @param string $ini
      *
-     * @throws \InvalidArgumentException if the provided json is not valid
+     * @throws \InvalidArgumentException if the provided ini is not valid
      * @throws \RuntimeException if the decoding throwed some errors
      *
      * @return array|StdClass
      */
-    private function decode($json)
+    private function decode($ini)
     {
-        $data = json_decode($json);
+        try {
+            $data = parse_ini_string($ini, true);
 
-        if (!is_array($data) && !is_object($data)) {
-            throw new \InvalidArgumentException('The provided JSON is not valid.');
+            if (!is_array($data) && !is_object($data)) {
+                throw new \InvalidArgumentException('The provided INI is not valid.');
+            }
+
+            if ($data !== false) {
+                return $data;
+            }
+        } catch (Exception $e) {
+            throw new $e;
         }
 
-        if (json_last_error() === JSON_ERROR_NONE) {
-            return $data;
-        }
-
-        throw new \RuntimeException(json_last_error_msg());
+        throw new \RuntimeException('Could\'t parse the INI');
     }
 }

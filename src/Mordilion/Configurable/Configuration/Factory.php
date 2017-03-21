@@ -11,6 +11,12 @@
 
 namespace Mordilion\Configurable\Configuration;
 
+use Mordilion\Configurable\Configuration\Configuration;
+use Mordilion\Configurable\Configuration\Reader\ReaderInterface;
+use Mordilion\Configurable\Configuration\Reader\Ini;
+use Mordilion\Configurable\Configuration\Reader\Json;
+use Mordilion\Configurable\Configuration\Reader\Yaml;
+
 /**
  * Mordilion\Configurable Factory-Class.
  *
@@ -18,6 +24,11 @@ namespace Mordilion\Configurable\Configuration;
  */
 class Factory
 {
+    /**
+     * All possible identifier types.
+     *
+     * @var array
+     */
     protected static $identifiers = array(
         'ini'  => 'Ini',
         'json' => 'Json',
@@ -25,20 +36,40 @@ class Factory
     );
 
 
-    public static function create($data)
+    /**
+     * Creates a Configuration based on the provided $data. The $data can be a filename or a string.
+     *
+     * @param string $data
+     * @param string $identifier
+     *
+     * @throws \InvalidArgumentException if the provided data is not a string
+     *
+     * @return Configuration
+     */
+    public static function create($data, $identifier = null)
     {
         if (!is_string($data)) {
             throw new \InvalidArgumentException('The provided data must be a string or a filename.');
         }
 
         if (strlen($data) <= PHP_MAXPATHLEN && is_file($data)) {
-            return static::fromFile($data);
+            return static::fromFile($data, $identifier);
         }
 
-        return static::fromString($data);
+        return static::fromString($data, $identifier);
     }
 
-    public static function fromFile($filename)
+    /**
+     * Creates a Configuration based on the file by the provided $filename.
+     *
+     * @param string $filename
+     * @param string $identifier
+     *
+     * @throws \InvalidArgumentException if the provided filename i missing an extension
+     *
+     * @return Configuration
+     */
+    public static function fromFile($filename, $identifier = null)
     {
         $pathinfo = pathinfo($fielname);
 
@@ -46,34 +77,67 @@ class Factory
             throw new \InvalidArgumentException('The filename "' . $filename . '" is missing an extension and cannot be auto-detected.');
         }
 
-        $extension = strtolower($pathinfo['extension']);
-        $reader = static::getReader($extension);
+        if ($identifier == null) {
+            $extension = strtolower($pathinfo['extension']);
+            $reader = static::getReader($extension);
+        } else {
+            $reader = static::getReader($identifier);
+        }
 
-        return new Configuration($reader->load($filename));
+        return new Configuration($reader->loadFile($filename));
     }
 
-    public static function fromString($string)
+    /**
+     * Creates a Configuration based on the provided $string.
+     *
+     * @param string $string
+     * @param string $identifier
+     *
+     * @return Configuration
+     */
+    public static function fromString($string, $identifier = null)
     {
-        $identifier = null;
+        if ($identifier == null) {
+            // is json format?
+            $decoded = json_decode($string, true);
 
-        // is json format?
-        $decoded = json_decode($string, true);
-
-        if (json_last_error() == JSON_ERROR_NONE) {
-            $identifier = 'json';
+            if (json_last_error() == JSON_ERROR_NONE) {
+                $identifier = 'json';
+            }
         }
 
         if ($identifier == null) {
+            // is yaml format?
             try {
                 $decoded    = yaml_parse($string);
-                $identifier = 'yaml'
+                $identifier = $decoded !== false ? 'yaml' : $identifier;
             } catch (Exception $e) {
             }
         }
 
-        $reader = static::getReader($extension);
+        if ($identifier == null) {
+            // is ini format?
+            try {
+                $decoded    = parse_ini_string($string, true);
+                $identifier = $decoded !== false ? 'ini' : $identifier;
+            } catch (Exception $e) {
+            }
+        }
+
+        $reader = static::getReader($identifier);
+
+        return new Configuration($reader->loadString($string));
     }
 
+    /**
+     * Returns a reader for the provided $identifier.
+     *
+     * @param string $identifier
+     *
+     * @throws \RuntimeException if the provided $identifier is not valid
+     *
+     * @return ReaderInterface
+     */
     protected static function getReader($identifier)
     {
         if (!isset(static::$identifiers[$identifier])) {
@@ -87,10 +151,5 @@ class Factory
         }
 
         return $reader;
-    }
-
-    protected static function getStringType($string)
-    {
-
     }
 }
