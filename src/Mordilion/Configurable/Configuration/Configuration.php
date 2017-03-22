@@ -34,11 +34,13 @@ class Configuration implements ConfigurationInterface
         if (is_object($data)) {
             if (method_exists($data, 'toArray')) {
                 $data = $data->toArray();
+            } else {
+                $data = get_object_vars($data);
             }
         }
 
         if (!is_array($data)) {
-            throw new \InvalidArgumentException('The provided data must be an array or an object with the toArray() method.');
+            throw new \InvalidArgumentException('The provided data must be an array or an object.');
         }
 
         $this->data = (array)$data;

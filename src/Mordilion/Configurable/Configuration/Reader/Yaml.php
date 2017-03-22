@@ -54,14 +54,23 @@ class Yaml implements ReaderInterface
      * @param string $yaml
      *
      * @throws \InvalidArgumentException if the provided yaml is not valid
+     * @throws \RuntimeException if a exception was catched
      * @throws \RuntimeException if the decoding throwed some errors
      *
-     * @return array|StdClass
+     * @return array
      */
     private function decode($yaml)
     {
         try {
-            $data = yaml_parse($yaml);
+            if (class_exists('Symfony\Component\Yaml\Yaml')) {
+                $data = Symfony\Component\Yaml\Yaml::parse($yaml);
+            } else if (function_exists('spyc_load')) {
+                $data = spyc_load($yaml);
+            } else if (function_exists('yaml_parse')) {
+                $data = yaml_parse($yaml);
+            } else {
+                $data = false;
+            }
 
             if (!is_array($data) && !is_object($data)) {
                 throw new \InvalidArgumentException('The provided YAML is not valid.');
@@ -71,9 +80,9 @@ class Yaml implements ReaderInterface
                 return $data;
             }
         } catch (Exception $e) {
-            throw new $e;
+            throw new \RuntimeException('Unable to parse the YAML string! :: ' . $e->getMessage());
         }
 
-        throw new \RuntimeException('Could\'t parse the YAML');
+        throw new \RuntimeException('Unable to parse the YAML string! Is a YAML library configured?');
     }
 }

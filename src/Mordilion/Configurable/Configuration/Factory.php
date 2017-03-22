@@ -95,35 +95,8 @@ class Factory
      *
      * @return Configuration
      */
-    public static function fromString($string, $identifier = null)
+    public static function fromString($string, $identifier)
     {
-        if ($identifier == null) {
-            // is json format?
-            $decoded = json_decode($string, true);
-
-            if (json_last_error() == JSON_ERROR_NONE) {
-                $identifier = 'json';
-            }
-        }
-
-        if ($identifier == null) {
-            // is yaml format?
-            try {
-                $decoded    = yaml_parse($string);
-                $identifier = $decoded !== false ? 'yaml' : $identifier;
-            } catch (Exception $e) {
-            }
-        }
-
-        if ($identifier == null) {
-            // is ini format?
-            try {
-                $decoded    = parse_ini_string($string, true);
-                $identifier = $decoded !== false ? 'ini' : $identifier;
-            } catch (Exception $e) {
-            }
-        }
-
         $reader = static::getReader($identifier);
 
         return new Configuration($reader->loadString($string));

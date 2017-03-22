@@ -33,11 +33,18 @@ class YamlTest extends TestCase
         $configurationArray = $configuration->toArray();
 
         $this->assertInstanceOf(Configuration::class, $configuration);
-        $this->assertArrayHasKey('variable1', $configurationArray);
-        $this->assertArrayHasKey('variable2', $configurationArray);
-        $this->assertArrayHasKey('variable3', $configurationArray);
-        $this->assertEquals($configurationArray['variable1'], 123456);
-        $this->assertEquals($configurationArray['variable2'], "This is a Test-String");
-        $this->assertEquals($configurationArray['variable3'], true);
+        $this->assertArrayHasKey('Person1', $configurationArray);
+        $this->assertArrayHasKey('Person2', $configurationArray);
+        $this->assertArrayHasKey('List1', $configurationArray);
+        $this->assertArrayHasKey('List2', $configurationArray);
+        $this->assertEquals($configurationArray['Person1']['name'], 'Mueller');
+        $this->assertEquals($configurationArray['Person1']['firstname'], 'Hans');
+        $this->assertEquals($configurationArray['Person2']['name'], 'Schmitz');
+        $this->assertEquals($configurationArray['Person2']['firstname'], 'Peter');
+        $this->assertEquals($configurationArray['List1'][0], 'Element1');
+        $this->assertEquals($configurationArray['List1'][1], 'Element2');
+        $this->assertEquals($configurationArray['List2'][0], 'Ele1');
+        $this->assertEquals($configurationArray['List2'][1], 'Ele2');
+        $this->assertEquals($configurationArray['List2'][2], 'Ele3');
     }
 }

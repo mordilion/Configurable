@@ -56,11 +56,11 @@ class Json implements ReaderInterface
      * @throws \InvalidArgumentException if the provided json is not valid
      * @throws \RuntimeException if the decoding throwed some errors
      *
-     * @return array|StdClass
+     * @return array
      */
     private function decode($json)
     {
-        $data = json_decode($json);
+        $data = json_decode($json, true);
 
         if (!is_array($data) && !is_object($data)) {
             throw new \InvalidArgumentException('The provided JSON is not valid.');

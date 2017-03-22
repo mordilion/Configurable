@@ -30,18 +30,22 @@ class ConfigurationTest extends TestCase
         $this->assertInstanceOf(Configuration::class, $configuration);
     }
 
+    public function testConfigurationConstructorWithDateTimeObject()
+    {
+        $configuration = new Configuration(new \DateTime('2017-01-25 14:00:00', new \DateTimeZone('America/Chicago')));
+        $configurationArray = $configuration->toArray();
+
+        $this->assertInstanceOf(Configuration::class, $configuration);
+        $this->assertEquals($configurationArray['date'], '2017-01-25 14:00:00.000000');
+        $this->assertEquals($configurationArray['timezone_type'], 3);
+        $this->assertEquals($configurationArray['timezone'], 'America/Chicago');
+    }
+
     public function testConfigurationConstructorThrowsExceptionForNull()
     {
         $this->expectException(\InvalidArgumentException::class);
 
         $configuration = new Configuration(null);
-    }
-
-    public function testConfigurationConstructorThrowsExceptionForObject()
-    {
-        $this->expectException(\InvalidArgumentException::class);
-
-        $configuration = new Configuration(new \DateTime());
     }
 
     public function testConfigurationConstructorThrowsExceptionForString()

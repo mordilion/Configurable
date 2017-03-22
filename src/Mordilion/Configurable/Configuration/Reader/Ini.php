@@ -56,7 +56,7 @@ class Ini implements ReaderInterface
      * @throws \InvalidArgumentException if the provided ini is not valid
      * @throws \RuntimeException if the decoding throwed some errors
      *
-     * @return array|StdClass
+     * @return array
      */
     private function decode($ini)
     {
