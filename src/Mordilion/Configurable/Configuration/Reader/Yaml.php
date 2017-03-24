@@ -19,6 +19,40 @@ namespace Mordilion\Configurable\Configuration\Reader;
 class Yaml implements ReaderInterface
 {
     /**
+     * Callable to decode the YAML string in an array.
+     *
+     * @var callable
+     */
+    private $decoder;
+
+
+    /**
+     * Constructor.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        if (class_exists('Symfony\Component\Yaml\Yaml')) {
+            $this->setDecoder(array('Symfony\Component\Yaml\Yaml', 'parse'));
+        } else if (function_exists('spyc_load')) {
+            $this->setDecoder('spyc_load');
+        } else if (function_exists('yaml_parse')) {
+            $this->setDecoder('yaml_parse');
+        }
+    }
+
+    /**
+     * Returns the current decoder.
+     *
+     * @return callable
+     */
+    public function getDecoder()
+    {
+        return $this->decoder;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function loadFile($filename)
@@ -49,11 +83,30 @@ class Yaml implements ReaderInterface
     }
 
     /**
+     * Sets the decoder.
+     *
+     * @param callable $decoder
+     *
+     * @return Yaml
+     */
+    public function setDecoder($decoder)
+    {
+        if (!is_callable($decoder)) {
+            throw new \InvalidArgumentException('The provided decoder must be callable.');
+        }
+
+        $this->decoder = $decoder;
+
+        return $this;
+    }
+
+    /**
      * Decodes the provided $yaml into an object or an array.
      *
      * @param string $yaml
      *
-     * @throws \InvalidArgumentException if the provided yaml is not valid
+     * @throws \RuntimeException if a decoder is not specified
+     * @throws \RuntimeException if the provided yaml is not valid
      * @throws \RuntimeException if a exception was catched
      * @throws \RuntimeException if the decoding throwed some errors
      *
@@ -62,18 +115,16 @@ class Yaml implements ReaderInterface
     private function decode($yaml)
     {
         try {
-            if (class_exists('Symfony\Component\Yaml\Yaml')) {
-                $data = Symfony\Component\Yaml\Yaml::parse($yaml);
-            } else if (function_exists('spyc_load')) {
-                $data = spyc_load($yaml);
-            } else if (function_exists('yaml_parse')) {
-                $data = yaml_parse($yaml);
-            } else {
-                $data = false;
+            $decoder = $this->getDecoder();
+
+            if ($decoder === null) {
+                throw new \RuntimeException('You didn\'t specify a decoder.');
             }
 
+            $data = call_user_func($decoder, $yaml);
+
             if (!is_array($data) && !is_object($data)) {
-                throw new \InvalidArgumentException('The provided YAML is not valid.');
+                throw new \RuntimeException('The provided YAML is not valid.');
             }
 
             if ($data !== false) {
