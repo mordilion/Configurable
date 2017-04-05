@@ -1,4 +1,4 @@
-[![Travis](https://img.shields.io/travis/mordilion/configurable.svg?branch=master)](https://travis-ci.org/mordilion/configurable)
+[![Travis](https://img.shields.io/travis/mordilion/Configurable.svg?branch=master)](https://travis-ci.org/mordilion/Configurable)
 [![Packagist](https://img.shields.io/packagist/dt/mordilion/configurable.svg)](https://packagist.org/packages/mordilion/configurable)
 # Configurable
 ## Description
