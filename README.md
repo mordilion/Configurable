@@ -1,3 +1,4 @@
+[![Packagist](https://img.shields.io/packagist/dt/mordilion/configurable.svg)](https://packagist.org/packages/mordilion/configurable)
 # Configurable
 ## Description
 Configurable is a small library to make each class configurable with different kinds of configuration objects. Internaly does it create an own type of configuration object to make it more reusable.
