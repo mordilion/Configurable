@@ -5,13 +5,14 @@ require_once 'Mordilion/Configurable/Configuration/Configuration.php';
 require_once 'Mordilion/Configurable/Configuration/Reader/ReaderInterface.php';
 require_once 'Mordilion/Configurable/Configuration/Reader/Json.php';
 
-use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\TestCase as PHPUnit_Framework_TestCase;
 
 use Mordilion\Configurable\Configurable;
 use Mordilion\Configurable\Configuration\Configuration;
 use Mordilion\Configurable\Configuration\Reader\Json;
 
-class JsonTest extends TestCase
+//class JsonTest extends TestCase
+class JsonTest extends PHPUnit_Framework_TestCase
 {
     public function testJsonLoadStringWithValidJsonString()
     {
