@@ -4,13 +4,12 @@ require_once 'Mordilion/Configurable/Configurable.php';
 require_once 'Mordilion/Configurable/Configuration/ConfigurationInterface.php';
 require_once 'Mordilion/Configurable/Configuration/Configuration.php';
 
-use PHPUnit\Framework\TestCase as PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 
 use Mordilion\Configurable\Configurable;
 use Mordilion\Configurable\Configuration\Configuration;
 
-//class ConfigurableTest extends TestCase
-class ConfigurableTest extends PHPUnit_Framework_TestCase
+class ConfigurableTest extends TestCase
 {
     public function testSetConfigurationWithArray()
     {
