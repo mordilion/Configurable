@@ -93,7 +93,7 @@ class Configuration implements ConfigurationInterface
 
             if (method_exists($object, $method)) {
                 $object->$method($value);
-            } else if (property_exists($object, $property)) {
+            } else if (property_exists($object, $property) || isset($object->$property)) {
                 $object->$property = $value;
             }
         }
