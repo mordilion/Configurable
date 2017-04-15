@@ -75,7 +75,7 @@ class Configuration implements ConfigurationInterface
      */
     public function __unset($name)
     {
-        unset($this->data[name]);
+        unset($this->data[$name]);
     }
 
     /**
