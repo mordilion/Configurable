@@ -41,6 +41,32 @@ class ConfigurableTest extends TestCase
         $this->assertEquals($configurationArray['param4'], $valueBoolean);
     }
 
+    public function testSetConfigurationWithArrayAndConfigureFalse()
+    {
+        $object = new TestTrait();
+
+        $valueString = 'That\'s a String';
+
+        $object->setConfiguration(array(
+            'property1' => $valueString
+        ), false);
+
+        $configuration = $object->getConfiguration();
+        $configurationArray = $configuration->toArray();
+
+        $this->assertInstanceOf(Configuration::class, $configuration);
+        $this->assertFalse(isset($object->property1));
+        $this->assertEquals($configurationArray['property1'], $valueString);
+
+        $object->configure();
+
+        $configuration = $object->getConfiguration();
+        $configurationArray = $configuration->toArray();
+
+        $this->assertTrue(isset($object->property1));
+        $this->assertEquals($object->property1, $valueString);
+    }
+
     public function testSetConfigurationWithConfigurationObject()
     {
         $mock = $this->getMockForTrait(Configurable::class);
@@ -151,4 +177,11 @@ class ConfigurableTest extends TestCase
         $this->assertEquals($configurationArray['param5'], $valueString);
         $this->assertEquals($configurationArray['param6'], $valueInteger);
     }
+}
+
+class TestTrait
+{
+    use Configurable;
+
+    public $property1 = null;
 }

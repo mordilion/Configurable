@@ -33,16 +33,17 @@ trait Configurable
      * This method will add the provided configuration to the object configuration.
      *
      * @param mixed $configuration
+     * @param boolean $configure
      *
      * @return ConfigurableInterface
      */
-    public function addConfiguration($configuration)
+    public function addConfiguration($configuration, $configure = true)
     {
         if (!$configuration instanceof ConfigurationInterface) {
             $configuration = new Configuration($configuration);
         }
 
-        $config = $this->configuration;
+        $config = $this->getConfiguration();
 
         if ($config instanceof ConfigurationInterface) {
             $config->merge($configuration);
@@ -50,7 +51,21 @@ trait Configurable
             $config = $configuration;
         }
 
-        $this->setConfiguration($config);
+        $this->setConfiguration($config, $configure);
+    }
+
+    /**
+     * Configures the object with the current configuration.
+     *
+     * @return void
+     */
+    public function configure()
+    {
+        $configuration = $this->getConfiguration();
+
+        if ($configuration instanceof ConfigurationInterface) {
+            $this->configuration->configure($this);
+        }
     }
 
     /**
@@ -67,20 +82,22 @@ trait Configurable
      * This method will configure the object with the provided configuration.
      *
      * @param mixed $configuration
+     * @param boolean $configure
      *
      * @return ConfigurableInterface
      */
-    public function setConfiguration($configuration)
+    public function setConfiguration($configuration, $configure = true)
     {
         if (!$configuration instanceof ConfigurationInterface) {
             $configuration = new Configuration($configuration);
         }
 
-        if ($this->configuration instanceof ConfigurationInterface) {
-            unset($this->configuration); // destroy the old one
-        }
+        unset($this->configuration); // destroy the old one
 
         $this->configuration = $configuration;
-        $this->configuration->configure($this);
+
+        if ($configure) {
+            $this->configure();
+        }
     }
 }
