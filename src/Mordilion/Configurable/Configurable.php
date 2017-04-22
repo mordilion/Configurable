@@ -35,7 +35,7 @@ trait Configurable
      * @param mixed $configuration
      * @param boolean $configure
      *
-     * @return ConfigurableInterface
+     * @return void
      */
     public function addConfiguration($configuration, $configure = true)
     {
@@ -84,7 +84,7 @@ trait Configurable
      * @param mixed $configuration
      * @param boolean $configure
      *
-     * @return ConfigurableInterface
+     * @return void
      */
     public function setConfiguration($configuration, $configure = true)
     {
