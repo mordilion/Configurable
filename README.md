@@ -1,4 +1,4 @@
-[![GitHub release](https://img.shields.io/github/release/qubyte/rubidium.svg)]()
+[![GitHub release](https://img.shields.io/github/release/qubyte/rubidium.svg)](https://github.com/mordilion/Configurable)
 [![Travis](https://img.shields.io/travis/mordilion/Configurable.svg?branch=master)](https://travis-ci.org/mordilion/Configurable)
 [![Packagist](https://img.shields.io/packagist/dt/mordilion/configurable.svg)](https://packagist.org/packages/mordilion/configurable)
 # Configurable
