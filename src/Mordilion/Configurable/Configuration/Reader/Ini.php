@@ -49,7 +49,7 @@ class Ini implements ReaderInterface
     }
 
     /**
-     * Decodes the provided $yaml into an object or an array.
+     * Decodes the provided $ini into an object or an array.
      *
      * @param string $ini
      *
@@ -71,7 +71,7 @@ class Ini implements ReaderInterface
                 return $data;
             }
         } catch (Exception $e) {
-            throw new $e;
+            throw new \RuntimeException('Unable to parse the INI string! :: ' . $e->getMessage());
         }
 
         throw new \RuntimeException('Could\'t parse the INI');
