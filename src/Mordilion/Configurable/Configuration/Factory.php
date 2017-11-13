@@ -71,13 +71,13 @@ class Factory
      */
     public static function fromFile($filename, $identifier = null)
     {
-        $pathinfo = pathinfo($fielname);
-
-        if (!isset($pathinfo['extension'])) {
-            throw new \InvalidArgumentException('The filename "' . $filename . '" is missing an extension and cannot be auto-detected.');
-        }
-
         if ($identifier == null) {
+	    $pathinfo = pathinfo($fielname);
+
+            if (!isset($pathinfo['extension'])) {
+                throw new \InvalidArgumentException('The filename "' . $filename . '" is missing an extension and cannot be auto-detected.');
+            }
+
             $extension = strtolower($pathinfo['extension']);
             $reader = static::getReader($extension);
         } else {
