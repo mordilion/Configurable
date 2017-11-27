@@ -18,7 +18,7 @@ PECL YAML http://php.net/manual/en/book.yaml.php
 <?php
 
 use Mordilion\Configurable\Configurable;
-use Mordilion\Configurable\Configuration;
+use Mordilion\Configurable\Configuration\Configuration;
 
 class Something
 {
@@ -57,7 +57,7 @@ class Something
      */
     public function __construct($configuration = null)
     {
-        $this->defaults['setting2'] = new \DateTime('now', 'America/Chicago');
+        $this->defaults['setting2'] = new \DateTime('now', new \DateTimeZone('America/Chicago'));
         
         $this->setConfiguration(new Configuration($this->defaults));
         
