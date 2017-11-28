@@ -37,4 +37,22 @@ class JsonTest extends TestCase
         $this->assertEquals($configurationArray['List1'][0], 'Element1');
         $this->assertEquals($configurationArray['List1'][1], 'Element2');
     }
+
+    public function testLoadFileMethodThrowsInvalidArgumentExceptionForNotExistingFile()
+    {
+        $this->expectException(\InvalidArgumentException::class);
+
+        $reader = new Json();
+
+        $reader->loadFile('not-existing-file.json');
+    }
+
+    public function testLoadStringMethodReturnsAnEmptyArraForEmptyString()
+    {
+        $reader = new Json();
+
+        $this->assertEquals($reader->loadString(''), array());
+        $this->assertEquals($reader->loadString(null), array());
+        $this->assertEquals($reader->loadString(false), array());
+    }
 }

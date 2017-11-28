@@ -47,4 +47,46 @@ class YamlTest extends TestCase
         $this->assertEquals($configurationArray['List2'][1], 'Ele2');
         $this->assertEquals($configurationArray['List2'][2], 'Ele3');
     }
+
+    public function testLoadFileMethodThrowsInvalidArgumentExceptionForNotExistingFile()
+    {
+        $this->expectException(\InvalidArgumentException::class);
+
+        $reader = new Yaml();
+
+        $reader->loadFile('not-existing-file.yml');
+    }
+
+    public function testLoadStringMethodReturnsAnEmptyArraForEmptyString()
+    {
+        $reader = new Yaml();
+
+        $this->assertEquals($reader->loadString(''), array());
+        $this->assertEquals($reader->loadString(null), array());
+        $this->assertEquals($reader->loadString(false), array());
+    }
+
+    public function testSetDecoderMethodThrowsInvalidArgumentExceptionIfDecoderIsNotCallable()
+    {
+        $this->expectException(\InvalidArgumentException::class);
+
+        $reader = new Yaml();
+
+        $reader->setDecoder('Whatever!');
+    }
+
+    public function testDecodeMethodThrowsRuntimeExceptionIfNoDecoderIsSet()
+    {
+        $this->expectException(\RuntimeException::class);
+
+        $reader = new Yaml();
+
+        $reflection = new ReflectionClass($reader);
+        $reflectionProperty = $reflection->getProperty('decoder');
+        $reflectionProperty->setAccessible(true);
+
+        $reflectionProperty->setValue($reader, null);
+
+        $reader->loadString('Whatever!');
+    }
 }

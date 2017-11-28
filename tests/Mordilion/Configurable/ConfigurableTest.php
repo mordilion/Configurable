@@ -177,6 +177,37 @@ class ConfigurableTest extends TestCase
         $this->assertEquals($configurationArray['param5'], $valueString);
         $this->assertEquals($configurationArray['param6'], $valueInteger);
     }
+
+    public function testAddConfigurationWithoutPreviouseExistingConfiguration()
+    {
+        $mock = $this->getMockForTrait(Configurable::class);
+
+        $valueString  = 'That\'s a String';
+        $valueInteger = 123456789;
+        $valueObject  = new \DateTime();
+        $valueBoolean = true;
+
+        $configuration = new Configuration();
+        $configuration->set('param1', $valueString);
+        $configuration->param2 = $valueInteger;
+        $configuration->set('param3', $valueObject);
+        $configuration->param4 = $valueBoolean;
+
+        $mock->addConfiguration($configuration);
+
+        $configuration = $mock->getConfiguration();
+        $configurationArray = $configuration->toArray();
+
+        $this->assertInstanceOf(Configuration::class, $configuration);
+        $this->assertArrayHasKey('param1', $configurationArray);
+        $this->assertArrayHasKey('param2', $configurationArray);
+        $this->assertArrayHasKey('param3', $configurationArray);
+        $this->assertArrayHasKey('param4', $configurationArray);
+        $this->assertEquals($configurationArray['param1'], $valueString);
+        $this->assertEquals($configurationArray['param2'], $valueInteger);
+        $this->assertEquals($configurationArray['param3'], $valueObject);
+        $this->assertEquals($configurationArray['param4'], $valueBoolean);
+    }
 }
 
 class TestTrait
