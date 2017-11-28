@@ -72,7 +72,7 @@ class Factory
     public static function fromFile($filename, $identifier = null)
     {
         if ($identifier == null) {
-	    $pathinfo = pathinfo($filename);
+            $pathinfo = pathinfo($filename);
 
             if (!isset($pathinfo['extension'])) {
                 throw new \InvalidArgumentException('The filename "' . $filename . '" is missing an extension and cannot be auto-detected.');
