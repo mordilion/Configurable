@@ -32,7 +32,8 @@ class Factory
     protected static $identifiers = array(
         'ini'  => 'Ini',
         'json' => 'Json',
-        'yaml' => 'Yaml'
+        'yml'  => 'Yaml',
+        'yaml' => 'Yaml',
     );
 
 
