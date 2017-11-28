@@ -72,7 +72,7 @@ class Factory
     public static function fromFile($filename, $identifier = null)
     {
         if ($identifier == null) {
-	    $pathinfo = pathinfo($fielname);
+	    $pathinfo = pathinfo($filename);
 
             if (!isset($pathinfo['extension'])) {
                 throw new \InvalidArgumentException('The filename "' . $filename . '" is missing an extension and cannot be auto-detected.');
@@ -120,7 +120,9 @@ class Factory
         $reader = static::$identifiers[$identifier];
 
         if (!$reader instanceof Reader\ReaderInterface) {
-            $reader = new Reader\$reader();
+            // Namespace in variable needs fully qualified name
+            $readerClass = __NAMESPACE__ . '\Reader\\' . $reader;
+            $reader = new $readerClass();
         }
 
         return $reader;
