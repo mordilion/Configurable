@@ -28,16 +28,36 @@ class SimpleXml implements DecoderInterface
      */
     public function decode($xml)
     {
-        $data = (array) simplexml_load_string($xml);
+        return $this->castToArray((array) simplexml_load_string($xml));
+    }
 
-        // Recursively cast to array
-        array_walk_recursive($data, function(&$item) {
-            if($item instanceof \SimpleXMLElement){
-                $item = (array) $item;
+    /**
+     * Recursively cast to array
+     *
+     * @param  mixed $input
+     * @return array
+     */
+    private function castToArray($input)
+    {
+        $result = array();
+
+        foreach($input as $key => $value){
+            if($value instanceof \SimpleXMLElement){
+                $result[$key] = $this->castToArray((array) $value);
+            }elseif(is_array($value)){
+                $result[$key] = $this->castToArray($value);
+            }else{
+                if(is_numeric($value)){
+                    $result[$key] = $value + 0;
+                }elseif($value == "true" || $value == "false"){
+                    $result[$key] = filter_var($value, FILTER_VALIDATE_BOOLEAN);
+                }else{
+                    $result[$key] = $value;
+                }
             }
-        });        
+        }       
 
-        return $data;
+        return $result;
     }
 }
 

@@ -31,11 +31,11 @@ class XmlTest extends TestCase
         $this->assertArrayHasKey('var4', $configurationArray);
         $this->assertArrayHasKey('fruits', $configurationArray);
         $this->assertEquals($configurationArray['var1'], 'This is a text');
-        $this->assertEquals($configurationArray['var2'], '123456789');
-        $this->assertEquals($configurationArray['var3'], "true");
+        $this->assertEquals($configurationArray['var2'], 123456789);
+        $this->assertEquals($configurationArray['var3'], true);
         $this->assertEquals($configurationArray['var4']['var4.1'], 'Another text');
-        $this->assertEquals($configurationArray['var4']['var4.2'], '12345');
-        $this->assertEquals($configurationArray['var4']['var4.3'], 'false');
+        $this->assertEquals($configurationArray['var4']['var4.2'], 12345);
+        $this->assertEquals($configurationArray['var4']['var4.3'], false);
         $this->assertEquals($configurationArray['fruits'][0], 'Apple');
         $this->assertEquals($configurationArray['fruits'][1], 'Orange');
         $this->assertEquals($configurationArray['fruits'][2], 'Mango');
