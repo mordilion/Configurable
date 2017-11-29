@@ -41,21 +41,21 @@ class SimpleXml implements DecoderInterface
     {
         $result = array();
 
-        foreach($input as $key => $value){
-            if($value instanceof \SimpleXMLElement){
+        foreach ($input as $key => $value) {
+            if ($value instanceof \SimpleXMLElement) {
                 $result[$key] = $this->castToArray((array) $value);
-            }elseif(is_array($value)){
+            } else if(is_array($value)) {
                 $result[$key] = $this->castToArray($value);
-            }else{
-                if(is_numeric($value)){
+            } else {
+                if (is_numeric($value)) {
                     $result[$key] = $value + 0;
-                }elseif($value == "true" || $value == "false"){
+                } else if ($value == "true" || $value == "false") {
                     $result[$key] = filter_var($value, FILTER_VALIDATE_BOOLEAN);
-                }else{
+                } else {
                     $result[$key] = $value;
                 }
             }
-        }       
+        }
 
         return $result;
     }

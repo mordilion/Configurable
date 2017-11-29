@@ -76,7 +76,7 @@ class XmlTest extends TestCase
     {
         $reader = new XML();
         $array  = $reader->setDecoderParams(array('test' => 'test'))
-                         ->getDecoderParams();
+            ->getDecoderParams();
 
         $this->assertInternalType('array', $array);
     }
@@ -99,17 +99,17 @@ class XmlTest extends TestCase
     public function getXmlData()
     {
         $xml = file_get_contents(
-            dirname(__FILE__) . DIRECTORY_SEPARATOR .
-            '..'   . DIRECTORY_SEPARATOR .
-            '..'   . DIRECTORY_SEPARATOR .
-            '..'   . DIRECTORY_SEPARATOR .
-            '..'   . DIRECTORY_SEPARATOR .
-            'Data' . DIRECTORY_SEPARATOR .
-            'test.xml'
+            __DIR__ . DIRECTORY_SEPARATOR
+            . '..' . DIRECTORY_SEPARATOR
+            . '..' . DIRECTORY_SEPARATOR
+            . '..' . DIRECTORY_SEPARATOR
+            . '..' . DIRECTORY_SEPARATOR
+            . 'Data' . DIRECTORY_SEPARATOR
+            . 'test.xml'
         );
 
         return array(
-            'valid'   => array($xml),
+            'valid' => array($xml),
         );
     }
 }
