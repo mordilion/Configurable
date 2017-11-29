@@ -1,10 +1,5 @@
 <?php
 
-require_once 'Mordilion/Configurable/Configuration/ConfigurationInterface.php';
-require_once 'Mordilion/Configurable/Configuration/Configuration.php';
-require_once 'Mordilion/Configurable/Configuration/Reader/ReaderInterface.php';
-require_once 'Mordilion/Configurable/Configuration/Reader/Xml.php';
-
 use PHPUnit\Framework\TestCase;
 
 use Mordilion\Configurable\Configurable;
@@ -67,6 +62,23 @@ class XmlTest extends TestCase
         $reader = new Xml();
 
         $reader->setDecoder('Whatever!');
+    }
+
+    public function testReturnObjectOnSettingDecoderParams()
+    {
+        $reader = new XML();
+        $object = $reader->setDecoderParams(array('test'));
+
+        $this->assertInstanceOf(Xml::class, $object);
+    }
+
+    public function testGetDecoderParamsReturnsArray()
+    {
+        $reader = new XML();
+        $array  = $reader->setDecoderParams(array('test' => 'test'))
+                         ->getDecoderParams();
+
+        $this->assertInternalType('array', $array);
     }
 
     public function testDecodeMethodThrowsRuntimeExceptionIfNoDecoderIsSet()
