@@ -16,6 +16,7 @@ use Mordilion\Configurable\Configuration\Reader\ReaderInterface;
 use Mordilion\Configurable\Configuration\Reader\Ini;
 use Mordilion\Configurable\Configuration\Reader\Json;
 use Mordilion\Configurable\Configuration\Reader\Yaml;
+use Mordilion\Configurable\Configuration\Reader\Xml;
 
 /**
  * Mordilion\Configurable Factory-Class.
@@ -34,6 +35,7 @@ class Factory
         'json' => 'Json',
         'yml'  => 'Yaml',
         'yaml' => 'Yaml',
+        'xml'  => 'Xml'
     );
 
 
