@@ -94,6 +94,38 @@ class FactoryTest extends TestCase
         $this->assertInstanceOf(Configuration::class, $configuration);
     }
 
+    public function testFactoryCreateWithXmlData()
+    {
+        $var1 = "This is a text!";
+        $var2 = 12345;
+        $var3 = true;
+
+        $data = "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>"
+            . "<root>" . PHP_EOL
+            . "  <var1>" . $var1 . "</var1>" . PHP_EOL
+            . "  <var2>" . $var2 . "</var2>" . PHP_EOL
+            . "  <var3>" . $var3 . "</var3>" . PHP_EOL
+            . "  <fruits>Apple</fruits>" . PHP_EOL
+            . "  <fruits>Mango</fruits>" . PHP_EOL
+            . "</root>";
+
+        $configuration = Factory::create($data, 'xml');
+        $configurationArray = $configuration->toArray();
+
+        $this->assertInstanceOf(Configuration::class, $configuration);
+        $this->assertEquals($configurationArray['var1'], $var1);
+        $this->assertEquals($configurationArray['var2'], $var2);
+        $this->assertEquals($configurationArray['var3'], $var3);
+        $this->assertEquals($configurationArray['fruits'], array('Apple', 'Mango'));
+    }
+
+    public function testFactoryCreateWithXmlFile()
+    {
+        $configuration = Factory::create(__DIR__ . '/../../../Data/test.xml');
+
+        $this->assertInstanceOf(Configuration::class, $configuration);
+    }
+
     public function testFactoryGetReaderThrowsRuntimeExceptionForInvalidIdentifier()
     {
         $this->expectException(\RuntimeException::class);
