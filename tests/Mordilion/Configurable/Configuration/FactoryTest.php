@@ -1,7 +1,5 @@
 <?php
 
-require_once 'Mordilion/Configurable/Configuration/Factory.php';
-
 use PHPUnit\Framework\TestCase;
 
 use Mordilion\Configurable\Configuration\Configuration;

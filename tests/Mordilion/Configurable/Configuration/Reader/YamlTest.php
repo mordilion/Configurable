@@ -1,10 +1,5 @@
 <?php
 
-require_once 'Mordilion/Configurable/Configuration/ConfigurationInterface.php';
-require_once 'Mordilion/Configurable/Configuration/Configuration.php';
-require_once 'Mordilion/Configurable/Configuration/Reader/ReaderInterface.php';
-require_once 'Mordilion/Configurable/Configuration/Reader/Yaml.php';
-
 use PHPUnit\Framework\TestCase;
 
 use Mordilion\Configurable\Configurable;

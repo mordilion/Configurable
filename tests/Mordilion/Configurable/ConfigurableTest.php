@@ -1,9 +1,5 @@
 <?php
 
-require_once 'Mordilion/Configurable/Configurable.php';
-require_once 'Mordilion/Configurable/Configuration/ConfigurationInterface.php';
-require_once 'Mordilion/Configurable/Configuration/Configuration.php';
-
 use PHPUnit\Framework\TestCase;
 
 use Mordilion\Configurable\Configurable;
