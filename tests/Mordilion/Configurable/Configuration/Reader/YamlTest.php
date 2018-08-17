@@ -43,13 +43,13 @@ class YamlTest extends TestCase
         $this->assertEquals($configurationArray['List2'][2], 'Ele3');
     }
 
-    public function testLoadFileMethodThrowsInvalidArgumentExceptionForNotExistingFile()
+    public function testLoadFileMethodThrowsRuntimeExceptionForNotReadableFile()
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(\RuntimeException::class);
 
         $reader = new Yaml();
 
-        $reader->loadFile('not-existing-file.yml');
+        $reader->loadFile(TEST_ROOT_PATH . '/not-readable.file');
     }
 
     public function testLoadStringMethodReturnsAnEmptyArraForEmptyString()

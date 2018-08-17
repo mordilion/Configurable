@@ -54,13 +54,13 @@ class IniTest extends TestCase
         $this->assertEquals($configurationArray['Section2']['variable3'], true);
     }
 
-    public function testLoadFileMethodThrowsInvalidArgumentExceptionForNotExistingFile()
+    public function testLoadFileMethodThrowsRuntimeExceptionForNotReadableFile()
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(\RuntimeException::class);
 
         $reader = new Ini();
 
-        $reader->loadFile('not-existing-file.ini');
+        $reader->loadFile(TEST_ROOT_PATH . '/not-readable.file');
     }
 
     public function testLoadStringMethodReturnsAnEmptyArraForEmptyString()

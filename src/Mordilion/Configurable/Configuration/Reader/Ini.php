@@ -23,10 +23,6 @@ class Ini implements ReaderInterface
      */
     public function loadFile($filename)
     {
-        if (!is_file($filename)) {
-            throw new \InvalidArgumentException('The provided filename is not a valid filename.');
-        }
-
         if (!is_readable($filename)) {
             throw new \RuntimeException('The file "' . $filename . '" is not readable.');
         }

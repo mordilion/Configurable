@@ -37,13 +37,13 @@ class XmlTest extends TestCase
 
     }
 
-    public function testLoadFileMethodThrowsInvalidArgumentExceptionForNotExistingFile()
+    public function testLoadFileMethodThrowsRuntimeExceptionForNotReadableFile()
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(\RuntimeException::class);
 
         $reader = new Xml();
 
-        $reader->loadFile('not-existing-file.xml');
+        $reader->loadFile(TEST_ROOT_PATH . '/not-readable.file');
     }
 
     public function testLoadStringMethodReturnsAnEmptyArraForEmptyString()

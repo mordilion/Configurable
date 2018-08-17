@@ -33,13 +33,13 @@ class JsonTest extends TestCase
         $this->assertEquals($configurationArray['List1'][1], 'Element2');
     }
 
-    public function testLoadFileMethodThrowsInvalidArgumentExceptionForNotExistingFile()
+    public function testLoadFileMethodThrowsRuntimeExceptionForNotReadableFile()
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(\RuntimeException::class);
 
         $reader = new Json();
 
-        $reader->loadFile('not-existing-file.json');
+        $reader->loadFile(TEST_ROOT_PATH . '/not-readable.file');
     }
 
     public function testLoadStringMethodReturnsAnEmptyArraForEmptyString()
