@@ -110,24 +110,20 @@ class Yaml implements ReaderInterface
      */
     private function decode($yaml)
     {
-        try {
-            $decoder = $this->getDecoder();
+        $decoder = $this->getDecoder();
 
-            if ($decoder === null) {
-                throw new \RuntimeException('You didn\'t specify a decoder.');
-            }
+        if ($decoder === null) {
+            throw new \RuntimeException('You didn\'t specify a decoder.');
+        }
 
-            $data = call_user_func($decoder, $yaml);
+        $data = call_user_func($decoder, $yaml);
 
-            if (!is_array($data) && !is_object($data)) {
-                throw new \RuntimeException('The provided YAML is not valid.');
-            }
+        if (!is_array($data) && !is_object($data)) {
+            throw new \RuntimeException('The provided YAML is not valid.');
+        }
 
-            if ($data !== false) {
-                return $data;
-            }
-        } catch (Exception $e) {
-            throw new \RuntimeException('Unable to parse the YAML string! :: ' . $e->getMessage());
+        if ($data !== false) {
+            return $data;
         }
 
         throw new \RuntimeException('Unable to parse the YAML string! Is a YAML library configured?');

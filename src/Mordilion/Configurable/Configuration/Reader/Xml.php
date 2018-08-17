@@ -154,27 +154,23 @@ class Xml implements ReaderInterface
      */
     private function decode($xml)
     {
-        try {
-            $decoder = $this->getDecoder();
+        $decoder = $this->getDecoder();
 
-            if ($decoder === null) {
-                throw new \RuntimeException('You didn\'t specify a decoder.');
-            }
+        if ($decoder === null) {
+            throw new \RuntimeException('You didn\'t specify a decoder.');
+        }
 
-            $data = call_user_func_array($decoder, array_merge(
-                array($xml),
-                $this->getDecoderParams()
-            ));
+        $data = call_user_func_array($decoder, array_merge(
+            array($xml),
+            $this->getDecoderParams()
+        ));
 
-            if (!is_array($data) && !is_object($data)) {
-                throw new \RuntimeException('The provided XML is not valid.');
-            }
+        if (!is_array($data) && !is_object($data)) {
+            throw new \RuntimeException('The provided XML is not valid.');
+        }
 
-            if ($data !== false) {
-                return $data;
-            }
-        } catch (Exception $e) {
-            throw new \RuntimeException('Unable to parse the XML string! :: ' . $e->getMessage());
+        if ($data !== false) {
+            return $data;
         }
 
         // Todo: check if valid XML

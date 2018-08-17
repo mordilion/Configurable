@@ -56,18 +56,14 @@ class Ini implements ReaderInterface
      */
     private function decode($ini)
     {
-        try {
-            $data = parse_ini_string($ini, true);
+        $data = parse_ini_string($ini, true);
 
-            if (!is_array($data) && !is_object($data)) {
-                throw new \InvalidArgumentException('The provided INI is not valid.');
-            }
+        if (!is_array($data) && !is_object($data)) {
+            throw new \InvalidArgumentException('The provided INI is not valid.');
+        }
 
-            if ($data !== false) {
-                return $data;
-            }
-        } catch (Exception $e) {
-            throw new \RuntimeException('Unable to parse the INI string! :: ' . $e->getMessage());
+        if ($data !== false) {
+            return $data;
         }
 
         throw new \RuntimeException('Could\'t parse the INI');
