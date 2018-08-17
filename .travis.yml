@@ -10,4 +10,4 @@ php:
 before_install:
   - composer self-update
   - if [[ ${TRAVIS_PHP_VERSION:0:2} == "5." ]]; then composer require --dev "phpunit/phpunit=5.7.*"; fi
-  - composer install --no-dev
+  - composer install
