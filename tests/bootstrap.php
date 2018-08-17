@@ -1,5 +1,7 @@
 <?php
 
+define('TEST_ROOT_PATH', __DIR__);
+
 set_include_path(get_include_path() . PATH_SEPARATOR . realpath(__DIR__ . '/../src'));
 
 require_once __DIR__ . '/Spyc.php';
