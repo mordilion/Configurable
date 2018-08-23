@@ -42,24 +42,16 @@ class Xml implements ReaderInterface
      */
     public function __construct()
     {
-        if (class_exists('Symfony\Component\Serializer\Serializer')
-            && class_exists('Symfony\Component\Serializer\Encoder\XmlEncoder')
-            && class_exists('Symfony\Component\Serializer\Normalizer\ObjectNormalizer')
-        ) {
+        if (class_exists('Symfony\Component\Serializer\Encoder\XmlEncoder')) {
             // Load from fully qualified Namespace (No use in case not installed)
-            $serializer = new \Symfony\Component\Serializer\Serializer(
-                array(new \Symfony\Component\Serializer\Normalizer\ObjectNormalizer()),
-                array(new \Symfony\Component\Serializer\Encoder\XmlEncoder())
-            );
+            $decoder = new \Symfony\Component\Serializer\Encoder\XmlEncoder();
 
-            // Set Symfony/Serializer as decoder, which takes format as parameter
-            $this->setDecoder(array($serializer, 'decode'))
+            // Set Symfony/XmlEncoder as decoder, which takes format as parameter
+            $this->setDecoder(array($decoder, 'decode'))
                 ->setDecoderParams(array('xml'));
-
-        } else if(function_exists('simplexml_load_string')) {
+        } else if (function_exists('simplexml_load_string')) {
             // Set simplexml_load_string as decoder, which don't need parameters
             $this->setDecoder(array(new SimpleXml(), 'decode'));
-
         }
     }
 
@@ -160,10 +152,7 @@ class Xml implements ReaderInterface
             throw new \RuntimeException('You didn\'t specify a decoder.');
         }
 
-        $data = call_user_func_array($decoder, array_merge(
-            array($xml),
-            $this->getDecoderParams()
-        ));
+        $data = call_user_func_array($decoder, array_merge(array($xml), $this->getDecoderParams()));
 
         if (!is_array($data) && !is_object($data)) {
             throw new \RuntimeException('The provided XML is not valid.');
