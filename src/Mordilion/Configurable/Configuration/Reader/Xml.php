@@ -139,8 +139,6 @@ class Xml implements ReaderInterface
      *
      * @throws \RuntimeException if a decoder is not specified
      * @throws \RuntimeException if the provided xml is not valid
-     * @throws \RuntimeException if a exception was catched
-     * @throws \RuntimeException if the decoding throwed some errors
      *
      * @return array
      */
@@ -158,11 +156,6 @@ class Xml implements ReaderInterface
             throw new \RuntimeException('The provided XML is not valid.');
         }
 
-        if ($data !== false) {
-            return $data;
-        }
-
-        // Todo: check if valid XML
-        throw new \RuntimeException('Unable to parse the XML string!');
+        return $data;
     }
 }

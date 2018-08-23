@@ -50,7 +50,6 @@ class Ini implements ReaderInterface
      * @param string $ini
      *
      * @throws \InvalidArgumentException if the provided ini is not valid
-     * @throws \RuntimeException if the decoding throwed some errors
      *
      * @return array
      */
@@ -62,10 +61,6 @@ class Ini implements ReaderInterface
             throw new \InvalidArgumentException('The provided INI is not valid.');
         }
 
-        if ($data !== false) {
-            return $data;
-        }
-
-        throw new \RuntimeException('Could\'t parse the INI');
+        return $data;
     }
 }

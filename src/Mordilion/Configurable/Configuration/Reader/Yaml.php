@@ -103,8 +103,6 @@ class Yaml implements ReaderInterface
      *
      * @throws \RuntimeException if a decoder is not specified
      * @throws \RuntimeException if the provided yaml is not valid
-     * @throws \RuntimeException if a exception was catched
-     * @throws \RuntimeException if the decoding throwed some errors
      *
      * @return array
      */
@@ -122,10 +120,6 @@ class Yaml implements ReaderInterface
             throw new \RuntimeException('The provided YAML is not valid.');
         }
 
-        if ($data !== false) {
-            return $data;
-        }
-
-        throw new \RuntimeException('Unable to parse the YAML string! Is a YAML library configured?');
+        return $data;
     }
 }
