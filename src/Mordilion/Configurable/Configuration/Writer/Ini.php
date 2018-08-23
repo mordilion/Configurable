@@ -100,9 +100,9 @@ class Ini implements WriterInterface
      */
     private function encodeKeyValuePair($key, $value, $enclose = false)
     {
-        $result           = '';
-        $keyPrefix        = ($enclose ? '[' : '');
-        $keySuffix        = ($enclose ? ']' : '');
+        $result    = '';
+        $keyPrefix = ($enclose ? '[' : '');
+        $keySuffix = ($enclose ? ']' : '');
 
         if (is_array($value)) {
             foreach ($value as $k => $v) {
