@@ -43,7 +43,7 @@ class Json implements WriterInterface
     }
 
     /**
-     * Decodes the provided $ini into an object or an array.
+     * Encodes the provided $configuration into a json string.
      *
      * @param array|ConfigurationInterface $configuration
      *
