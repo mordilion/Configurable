@@ -103,21 +103,18 @@ class Ini implements WriterInterface
         $result           = '';
         $keyPrefix        = ($enclose ? '[' : '');
         $keySuffix        = ($enclose ? ']' : '');
-        $withoutLineBreak = false;
 
         if (is_array($value)) {
             foreach ($value as $k => $v) {
                 $result .= $keyPrefix . $key . $keySuffix;
                 $result .= $this->encodeKeyValuePair($k, $v, true);
-
-                $withoutLineBreak = true;
             }
         } else if (is_numeric($value)) {
-            $result .= $keyPrefix . $key . $keySuffix . ' = ' . $value;
+            $result .= $keyPrefix . $key . $keySuffix . ' = ' . $value . PHP_EOL;
         } else {
-            $result .= $keyPrefix . $key . $keySuffix . ' = "' . $value . '"';
+            $result .= $keyPrefix . $key . $keySuffix . ' = "' . $value . '"' . PHP_EOL;
         }
 
-        return $result . ($withoutLineBreak ? '' : PHP_EOL);
+        return $result;
     }
 }
