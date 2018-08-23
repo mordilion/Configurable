@@ -100,9 +100,11 @@ class Ini implements WriterInterface
      */
     private function encodeKeyValuePair($key, $value, $enclose = false)
     {
-        $result    = '';
-        $keyPrefix = ($enclose ? '[' : '');
-        $keySuffix = ($enclose ? ']' : '');
+        $result      = '';
+        $keyPrefix   = ($enclose ? '[' : '');
+        $keySuffix   = ($enclose ? ']' : '');
+        $trueValues  = array(true, 'true', 'yes', 'y');
+        $falseValues = array(false, 'false', 'no', 'n');
 
         if (is_array($value)) {
             foreach ($value as $k => $v) {
@@ -111,6 +113,8 @@ class Ini implements WriterInterface
             }
         } else if (is_numeric($value)) {
             $result .= $keyPrefix . $key . $keySuffix . ' = ' . $value . PHP_EOL;
+        } else if (is_bool($value)) {
+            $result .= $keyPrefix . $key . $keySuffix . ' = ' . ($value ? 'true' : 'false') . PHP_EOL;
         } else {
             $result .= $keyPrefix . $key . $keySuffix . ' = "' . $value . '"' . PHP_EOL;
         }

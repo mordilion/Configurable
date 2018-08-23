@@ -55,7 +55,9 @@ class IniWriterTest extends TestCase
         $tmpfile = tempnam(sys_get_temp_dir(), 'configurable_');
 
         $ini = 'key1 = 123' . PHP_EOL .
-            'key2 = "Value 2"' . PHP_EOL . PHP_EOL .
+            'key2 = "Value 2"' . PHP_EOL .
+            'key2.1 = true' . PHP_EOL .
+            'key2.2 = 12.5' . PHP_EOL . PHP_EOL .
             '[Section 1]' . PHP_EOL .
             'key3 = "value 3"' . PHP_EOL .
             'key4[0] = "value 4"' . PHP_EOL .
