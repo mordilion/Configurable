@@ -62,9 +62,9 @@ class Json implements WriterInterface
             throw new \InvalidArgumentException('The provided configuration is not an array or an instance of ConfigurationInterface.');
         }
 
-        $result = json_encode($configuration, JSON_PRETTY_PRINT);
+        $result = json_encode($configuration, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
 
-        if (json_last_error() === JSON_ERROR_NONE) {
+        if ($result !== false) {
             return $result;
         }
 
