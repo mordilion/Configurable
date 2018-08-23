@@ -6,7 +6,7 @@ use Mordilion\Configurable\Configurable;
 use Mordilion\Configurable\Configuration\Configuration;
 use Mordilion\Configurable\Configuration\Reader\Xml;
 
-class XmlTest extends TestCase
+class XmlReaderTest extends TestCase
 {
     /**
      * @dataProvider getXmlData

@@ -6,7 +6,7 @@ use Mordilion\Configurable\Configurable;
 use Mordilion\Configurable\Configuration\Configuration;
 use Mordilion\Configurable\Configuration\Reader\Yaml;
 
-class YamlTest extends TestCase
+class YamlReaderTest extends TestCase
 {
     public function testYamlLoadStringWithValidYamlString()
     {
