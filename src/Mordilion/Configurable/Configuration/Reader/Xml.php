@@ -28,9 +28,9 @@ class Xml implements ReaderInterface
     private $decoder;
 
     /**
-     * Decoder params
+     * Decoder parameters.
      *
-     * @var array $params
+     * @var array
      */
     private $decoderParameters = array();
 
@@ -63,6 +63,16 @@ class Xml implements ReaderInterface
     public function getDecoder()
     {
         return $this->decoder;
+    }
+
+    /**
+     * Returns the current decoder parameters.
+     *
+     * @return array
+     */
+    public function getDecoderParameters()
+    {
+        return $this->decoderParameters;
     }
 
     /**
@@ -110,9 +120,11 @@ class Xml implements ReaderInterface
     }
 
     /**
-     * Sets decoder call parameters
+     * Sets the decoder call parameters.
      *
-     * @param  array
+     * @param array
+     *
+     * @return Xml
      */
     public function setDecoderParameters(array $parameters)
     {
@@ -120,17 +132,6 @@ class Xml implements ReaderInterface
 
         return $this;
     }
-
-    /**
-     * Returns decoder parameters
-     *
-     * @return array
-     */
-    public function getDecoderParameters()
-    {
-        return $this->decoderParameters;
-    }
-
 
     /**
      * Decodes the provided $xml into an object or an array.
