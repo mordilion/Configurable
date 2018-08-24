@@ -43,7 +43,7 @@ class Json implements WriterInterface
     }
 
     /**
-     * Encodes the provided $configuration into a json string.
+     * Encodes the provided $configuration into a JSON string.
      *
      * @param array|ConfigurationInterface $configuration
      *
