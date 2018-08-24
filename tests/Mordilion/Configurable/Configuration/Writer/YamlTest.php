@@ -28,6 +28,8 @@ class YamlWriterTest extends TestCase
             '  - Ele2' . PHP_EOL .
             '  - Ele3' . PHP_EOL;
 
+        $writer->setEncoder('spyc_dump');
+
         $configuration = new Configuration($reader->loadString($yaml));
         $result = $writer->saveString($configuration);
 
@@ -68,6 +70,8 @@ class YamlWriterTest extends TestCase
             '  - Ele1' . PHP_EOL .
             '  - Ele2' . PHP_EOL .
             '  - Ele3' . PHP_EOL;
+
+        $writer->setEncoder('spyc_dump');
 
         $configuration = new Configuration($reader->loadString($yaml));
         $result = $writer->saveFile($configuration, $tmpfile);
