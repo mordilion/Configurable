@@ -204,6 +204,37 @@ class ConfigurableTest extends TestCase
         $this->assertEquals($configurationArray['param3'], $valueObject);
         $this->assertEquals($configurationArray['param4'], $valueBoolean);
     }
+
+    public function tstTestTraitRoutingIntegration()
+    {
+        $object = new TestTrait();
+
+        $valueString = 'That\'s a String';
+
+        $object->setConfiguration(array(
+            'property1' => $valueString,
+            'property2' => $valueString
+        ), false);
+
+        $configuration = $object->getConfiguration();
+        $configurationArray = $configuration->toArray();
+
+        $this->assertInstanceOf(Configuration::class, $configuration);
+        $this->assertFalse(isset($object->property1));
+        $this->assertFalse(isset($object->property2));
+        $this->assertEquals($configurationArray['property1'], $valueString);
+        $this->assertEquals($configurationArray['property2'], $valueString);
+
+        $object->configure();
+
+        $configuration = $object->getConfiguration();
+        $configurationArray = $configuration->toArray();
+
+        $this->assertTrue(isset($object->property1));
+        $this->assertTrue(isset($object->property2));
+        $this->assertEquals($object->property1, $valueString);
+        $this->assertEquals($object->property2, $valueString);
+    }
 }
 
 class TestTrait
@@ -211,4 +242,27 @@ class TestTrait
     use Configurable;
 
     public $property1 = null;
+
+
+    /* Routing directly to configuration */
+    public function __get($name)
+    {
+        if (property_exists($this, $name) || isset($this->$name)) {
+            return $this->$name;
+        } else if (isset($this->configuration->$name)) {
+            return $this->configuration->$name;
+        }
+
+        return null;
+    }
+
+    /* Routing directly to configuration */
+    public function __set($name, $value)
+    {
+        if (property_exists($this, $name) || isset($this->$name)) {
+            $this->$name = $value;
+        } else if (isset($this->configuration->$name)) {
+            $this->configuration->$name = $value;
+        }
+    }
 }
