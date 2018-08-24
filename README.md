@@ -97,7 +97,7 @@ class Something
 ```
 
 ## Routing Example
-Use __get and __set to route through the object to the configuration.
+Use __get and __set to route through the object directly to the configuration.
 ```php
 <?php
 
