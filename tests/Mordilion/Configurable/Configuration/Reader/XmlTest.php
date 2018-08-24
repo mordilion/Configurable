@@ -6,7 +6,7 @@ use Mordilion\Configurable\Configurable;
 use Mordilion\Configurable\Configuration\Configuration;
 use Mordilion\Configurable\Configuration\Reader\Xml;
 
-class XmlTest extends TestCase
+class XmlReaderTest extends TestCase
 {
     /**
      * @dataProvider getXmlData
@@ -67,7 +67,7 @@ class XmlTest extends TestCase
     public function testReturnObjectOnSettingDecoderParams()
     {
         $reader = new XML();
-        $object = $reader->setDecoderParams(array('test'));
+        $object = $reader->setDecoderParameters(array('test'));
 
         $this->assertInstanceOf(Xml::class, $object);
     }
@@ -75,8 +75,8 @@ class XmlTest extends TestCase
     public function testGetDecoderParamsReturnsArray()
     {
         $reader = new XML();
-        $array  = $reader->setDecoderParams(array('test' => 'test'))
-            ->getDecoderParams();
+        $array  = $reader->setDecoderParameters(array('test' => 'test'))
+            ->getDecoderParameters();
 
         $this->assertInternalType('array', $array);
     }

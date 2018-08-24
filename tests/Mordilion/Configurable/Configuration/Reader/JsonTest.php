@@ -6,7 +6,7 @@ use Mordilion\Configurable\Configurable;
 use Mordilion\Configurable\Configuration\Configuration;
 use Mordilion\Configurable\Configuration\Reader\Json;
 
-class JsonTest extends TestCase
+class JsonReaderTest extends TestCase
 {
     public function testJsonLoadStringWithValidJsonString()
     {

@@ -23,7 +23,6 @@ interface ReaderInterface
      *
      * @param string $filename
      *
-     * @throws \InvalidArgumentException if the provided filename is not valid
      * @throws \RuntimeException if the file is not readable
      *
      * @return array|false

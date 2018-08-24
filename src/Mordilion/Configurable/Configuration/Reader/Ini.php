@@ -50,22 +50,17 @@ class Ini implements ReaderInterface
      * @param string $ini
      *
      * @throws \InvalidArgumentException if the provided ini is not valid
-     * @throws \RuntimeException if the decoding throwed some errors
      *
      * @return array
      */
     private function decode($ini)
     {
-        $data = parse_ini_string($ini, true);
+        $data = parse_ini_string($ini, true, INI_SCANNER_TYPED);
 
         if (!is_array($data) && !is_object($data)) {
             throw new \InvalidArgumentException('The provided INI is not valid.');
         }
 
-        if ($data !== false) {
-            return $data;
-        }
-
-        throw new \RuntimeException('Could\'t parse the INI');
+        return $data;
     }
 }

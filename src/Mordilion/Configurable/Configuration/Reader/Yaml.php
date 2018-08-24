@@ -25,6 +25,13 @@ class Yaml implements ReaderInterface
      */
     private $decoder;
 
+    /**
+     * Decoder parameters.
+     *
+     * @var array
+     */
+    private $decoderParameters = array();
+
 
     /**
      * Constructor.
@@ -50,6 +57,16 @@ class Yaml implements ReaderInterface
     public function getDecoder()
     {
         return $this->decoder;
+    }
+
+    /**
+     * Returns the current decoder parameters.
+     *
+     * @return array
+     */
+    public function getDecoderParameters()
+    {
+        return $this->decoderParameters;
     }
 
     /**
@@ -97,14 +114,26 @@ class Yaml implements ReaderInterface
     }
 
     /**
+     * Sets the decoder call parameters.
+     *
+     * @param array
+     *
+     * @return Xml
+     */
+    public function setDecoderParameters(array $parameters)
+    {
+        $this->decoderParameters = $parameters;
+
+        return $this;
+    }
+
+    /**
      * Decodes the provided $yaml into an object or an array.
      *
      * @param string $yaml
      *
      * @throws \RuntimeException if a decoder is not specified
      * @throws \RuntimeException if the provided yaml is not valid
-     * @throws \RuntimeException if a exception was catched
-     * @throws \RuntimeException if the decoding throwed some errors
      *
      * @return array
      */
@@ -116,16 +145,12 @@ class Yaml implements ReaderInterface
             throw new \RuntimeException('You didn\'t specify a decoder.');
         }
 
-        $data = call_user_func($decoder, $yaml);
+        $data = call_user_func_array($decoder, array_merge(array($yaml), $this->getDecoderParameters()));
 
         if (!is_array($data) && !is_object($data)) {
             throw new \RuntimeException('The provided YAML is not valid.');
         }
 
-        if ($data !== false) {
-            return $data;
-        }
-
-        throw new \RuntimeException('Unable to parse the YAML string! Is a YAML library configured?');
+        return $data;
     }
 }
