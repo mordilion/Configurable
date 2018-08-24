@@ -13,7 +13,7 @@ Spyc (Simple-PHP-YAML-Class) https://github.com/mustangostang/spyc
 
 PECL YAML http://php.net/manual/en/book.yaml.php
 
-## Example
+## Basic Example
 ```php
 <?php
 
@@ -94,4 +94,69 @@ class Something
         return $this;
     }
 }
+```
+
+## Routing Example
+Use __get and __set to route through the object to the configuration.
+```php
+<?php
+
+use Mordilion\Configurable\Configurable;
+
+class Something
+{
+    /**
+     * Use the following traits.
+     */
+    use Configurable;
+
+    /**
+     * A public property.
+     *
+     * @var mixed
+     */
+    public $property1;
+
+
+    /**
+     * Routing requests directly to the configuration if needed.
+     *
+     * @param string $name
+     *
+     * @return mixed
+     */
+    public function __get($name)
+    {
+        if (property_exists($this, $name) || isset($this->$name)) {
+            return $this->$name;
+        } else if (isset($this->configuration->$name)) {
+            return $this->configuration->$name;
+        }
+
+        return null;
+    }
+
+    /**
+     * Routing requests directly to the configuration if needed.
+     * 
+     * @param string $name
+     * @param mixed $value
+     *
+     * @return void
+     */
+    public function __set($name, $value)
+    {
+        if (property_exists($this, $name) || isset($this->$name)) {
+            $this->$name = $value;
+        } else if (isset($this->configuration->$name)) {
+            $this->configuration->$name = $value;
+        }
+    }
+}
+
+// { ... }
+
+$object = new Something();
+$obejct->setConfiguration(array('property1' => 'some text', 'property2' => 'some other text')); // simple use
+echo $object->property1 . ' -- ' . $object->property2; // => "some text -- some other text"
 ```
