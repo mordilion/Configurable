@@ -32,7 +32,7 @@ class Xml implements ReaderInterface
      *
      * @var array $params
      */
-    private $decoderParams = array();
+    private $decoderParameters = array();
 
 
     /**
@@ -48,7 +48,7 @@ class Xml implements ReaderInterface
 
             // Set Symfony/XmlEncoder as decoder, which takes format as parameter
             $this->setDecoder(array($decoder, 'decode'))
-                ->setDecoderParams(array('xml'));
+                ->setDecoderParameters(array('xml'));
         } else if (function_exists('simplexml_load_string')) {
             // Set simplexml_load_string as decoder, which don't need parameters
             $this->setDecoder(array(new SimpleXml(), 'decode'));
@@ -110,25 +110,25 @@ class Xml implements ReaderInterface
     }
 
     /**
-     * Sets decoder call params
+     * Sets decoder call parameters
      *
-     * @param  array $params
+     * @param  array
      */
-    public function setDecoderParams(array $params)
+    public function setDecoderParameters(array $parameters)
     {
-        $this->decoderParams = $params;
+        $this->decoderParameters = $parameters;
 
         return $this;
     }
 
     /**
-     * Returns decoder params
+     * Returns decoder parameters
      *
-     * @return array $decoderParams
+     * @return array
      */
-    public function getDecoderParams()
+    public function getDecoderParameters()
     {
-        return $this->decoderParams;
+        return $this->decoderParameters;
     }
 
 
@@ -150,7 +150,7 @@ class Xml implements ReaderInterface
             throw new \RuntimeException('You didn\'t specify a decoder.');
         }
 
-        $data = call_user_func_array($decoder, array_merge(array($xml), $this->getDecoderParams()));
+        $data = call_user_func_array($decoder, array_merge(array($xml), $this->getDecoderParameters()));
 
         if (!is_array($data) && !is_object($data)) {
             throw new \RuntimeException('The provided XML is not valid.');
