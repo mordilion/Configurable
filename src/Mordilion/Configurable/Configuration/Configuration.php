@@ -31,16 +31,18 @@ class Configuration implements ConfigurationInterface
      */
     public function __construct($data = array())
     {
-        if (is_object($data)) {
+        if (is_object($data) && !$data instanceof \Traversable) {
             if (method_exists($data, 'toArray')) {
                 $data = $data->toArray();
             } else {
                 $data = get_object_vars($data);
             }
+        } else if ($data instanceof \Traversable) {
+            $data = iterator_to_array($data);
         }
 
         if (!is_array($data)) {
-            throw new \InvalidArgumentException('The provided data must be an array or an object.');
+            throw new \InvalidArgumentException('The provided data must be an array or traversable.');
         }
 
         $this->data = (array)$data;
