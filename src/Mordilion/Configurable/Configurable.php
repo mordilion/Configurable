@@ -49,7 +49,7 @@ trait Configurable
             $config->merge($configuration);
         } 
 
-        if (!$config instanceof ConfigurationInterface) {
+        if ($config === null) {
             $config = $configuration;
         }
 
