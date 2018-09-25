@@ -81,11 +81,10 @@ class Factory
                 throw new \InvalidArgumentException('The filename "' . $filename . '" is missing an extension and cannot be auto-detected.');
             }
 
-            $extension = strtolower($pathinfo['extension']);
-            $reader = static::getReader($extension);
-        } else {
-            $reader = static::getReader($identifier);
+            $identifier = strtolower($pathinfo['extension']);
         }
+        
+        $reader = static::getReader($identifier);
 
         return new Configuration($reader->loadFile($filename));
     }
@@ -125,7 +124,7 @@ class Factory
         if (!$reader instanceof Reader\ReaderInterface) {
             // Namespace in variable needs fully qualified name
             $readerClass = __NAMESPACE__ . '\Reader\\' . $reader;
-            $reader = new $readerClass();
+            $reader      = new $readerClass();
         }
 
         return $reader;

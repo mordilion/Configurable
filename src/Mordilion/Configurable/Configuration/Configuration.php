@@ -34,10 +34,14 @@ class Configuration implements ConfigurationInterface
         if (is_object($data) && !$data instanceof \Traversable) {
             if (method_exists($data, 'toArray')) {
                 $data = $data->toArray();
-            } else {
+            } 
+
+            if (is_object($data)) {
                 $data = get_object_vars($data);
             }
-        } else if ($data instanceof \Traversable) {
+        }
+
+        if ($data instanceof \Traversable) {
             $data = iterator_to_array($data);
         }
 
@@ -93,10 +97,12 @@ class Configuration implements ConfigurationInterface
             $method   = 'set' . ucfirst($key);
             $property = lcfirst($key);
 
+            if (property_exists($object, $property) || isset($object->$property)) {
+                $object->$property = $value;
+            }
+
             if (method_exists($object, $method)) {
                 $object->$method($value);
-            } else if (property_exists($object, $property) || isset($object->$property)) {
-                $object->$property = $value;
             }
         }
 
@@ -137,15 +143,17 @@ class Configuration implements ConfigurationInterface
     public function merge(ConfigurationInterface $configuration)
     {
         foreach ($configuration as $key => $value) {
-            if (isset($this->data[$key])) {
-                if ($value instanceof ConfigurationInterface && $this->data[$key] instanceof ConfigurationInterface) {
-                    $this->data[$key]->merge($value);
-                } else {
-                    $this->set($key, $value);
-                }
-            } else {
-                $this->set($key, $value);
+            if (isset($this->data[$key]) 
+                && $value instanceof ConfigurationInterface 
+                && $this->data[$key] instanceof ConfigurationInterface
+            ) {
+                $configuration = $this->data[$key];
+                $configuration->merge($value);
+
+                $value = $configuration;
             }
+
+            $this->set($key, $value);
         }
 
         return $this;
@@ -170,11 +178,11 @@ class Configuration implements ConfigurationInterface
         $data   = $this->data;
 
         foreach ($data as $key => $value) {
-            if ($value instanceof self) {
-                $result[$key] = $value->toArray();
-            } else {
-                $result[$key] = $value;
+            if ($value instanceof ConfigurationInterface) {
+                $value = $value->toArray();
             }
+            
+            $result[$key] = $value;
         }
 
         return $result;

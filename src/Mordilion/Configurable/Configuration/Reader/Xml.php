@@ -42,6 +42,11 @@ class Xml implements ReaderInterface
      */
     public function __construct()
     {
+        if (function_exists('simplexml_load_string')) {
+            // Set simplexml_load_string as decoder, which don't need parameters
+            $this->setDecoder(array(new SimpleXml(), 'decode'));
+        }
+
         if (class_exists('Symfony\Component\Serializer\Encoder\XmlEncoder')) {
             // Load from fully qualified Namespace (No use in case not installed)
             $decoder = new \Symfony\Component\Serializer\Encoder\XmlEncoder();
@@ -49,9 +54,6 @@ class Xml implements ReaderInterface
             // Set Symfony/XmlEncoder as decoder, which takes format as parameter
             $this->setDecoder(array($decoder, 'decode'))
                 ->setDecoderParameters(array('xml'));
-        } else if (function_exists('simplexml_load_string')) {
-            // Set simplexml_load_string as decoder, which don't need parameters
-            $this->setDecoder(array(new SimpleXml(), 'decode'));
         }
     }
 

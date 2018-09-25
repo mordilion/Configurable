@@ -40,12 +40,16 @@ class Yaml implements ReaderInterface
      */
     public function __construct()
     {
+        if (function_exists('yaml_parse')) {
+            $this->setDecoder('yaml_parse');
+        }
+
+        if (function_exists('spyc_load')) {
+            $this->setDecoder('spyc_load');
+        }
+
         if (class_exists('Symfony\Component\Yaml\Yaml')) {
             $this->setDecoder(array('Symfony\Component\Yaml\Yaml', 'parse'));
-        } else if (function_exists('spyc_load')) {
-            $this->setDecoder('spyc_load');
-        } else if (function_exists('yaml_parse')) {
-            $this->setDecoder('yaml_parse');
         }
     }
 

@@ -47,7 +47,9 @@ trait Configurable
 
         if ($config instanceof ConfigurationInterface) {
             $config->merge($configuration);
-        } else {
+        } 
+
+        if (!$config instanceof ConfigurationInterface) {
             $config = $configuration;
         }
 

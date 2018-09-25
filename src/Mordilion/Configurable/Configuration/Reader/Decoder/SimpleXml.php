@@ -24,7 +24,8 @@ class SimpleXml implements DecoderInterface
      * Simple XML decoder
      *
      * @param  string $xml
-     * @return array  $conf
+     *
+     * @return array
      */
     public function decode($xml)
     {
@@ -35,6 +36,7 @@ class SimpleXml implements DecoderInterface
      * Recursively cast to array
      *
      * @param  mixed $input
+     *
      * @return array
      */
     private function castToArray($input)
@@ -42,22 +44,38 @@ class SimpleXml implements DecoderInterface
         $result = array();
 
         foreach ($input as $key => $value) {
-            if ($value instanceof \SimpleXMLElement) {
-                $result[$key] = $this->castToArray((array) $value);
-            } else if(is_array($value)) {
-                $result[$key] = $this->castToArray($value);
-            } else {
-                if (is_numeric($value)) {
-                    $result[$key] = $value + 0;
-                } else if ($value == "true" || $value == "false") {
-                    $result[$key] = filter_var($value, FILTER_VALIDATE_BOOLEAN);
-                } else {
-                    $result[$key] = $value;
-                }
-            }
+            $result[$key] = $this->castValue($value);
         }
 
         return $result;
+    }
+
+    /**
+     * Cast the given $value to an array possible type.
+     *
+     * @param mixed $value
+     *
+     * @return mixed
+     */
+    private function castValue($value)
+    {
+        if ($value instanceof \SimpleXMLElement) {
+            return $this->castToArray((array)$value);
+        } 
+
+        if (is_array($value)) {
+            return $this->castToArray($value);
+        }
+
+        if (is_numeric($value)) {
+            return $value + 0;
+        } 
+
+        if (is_string($value) && in_array(strtolower($value), array('true', 'yes', 'on', 'false', 'no', 'off'))) {
+            return filter_var($value, FILTER_VALIDATE_BOOLEAN);
+        }
+
+        return $value;
     }
 }
 
