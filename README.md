@@ -1,10 +1,14 @@
 [![Travis](https://img.shields.io/travis/mordilion/Configurable.svg?branch=master)](https://travis-ci.org/mordilion/Configurable)
 [![Packagist](https://img.shields.io/packagist/dt/mordilion/configurable.svg)](https://packagist.org/packages/mordilion/configurable)
+
 # Configurable
+
 ## Description
+
 Configurable is a small library to make each class configurable with different kinds of configuration objects. Internaly does it create an own type of configuration object to make it more reusable.
 
 ## Requirements for YAML support
+
 To use that package with YAML you have to have at least one of the following libraries in your installation.
 
 Symfony YAML-Component https://github.com/symfony/yaml
@@ -14,6 +18,7 @@ Spyc (Simple-PHP-YAML-Class) https://github.com/mustangostang/spyc
 PECL YAML http://php.net/manual/en/book.yaml.php
 
 ## Basic Example
+
 ```php
 <?php
 
@@ -97,7 +102,9 @@ class Something
 ```
 
 ## Routing Example
+
 Use __get and __set to route through the object directly to the configuration.
+
 ```php
 <?php
 

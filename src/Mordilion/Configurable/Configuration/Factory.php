@@ -31,11 +31,11 @@ class Factory
      * @var array
      */
     protected static $identifiers = array(
-        'ini'  => 'Ini',
+        'ini' => 'Ini',
         'json' => 'Json',
-        'yml'  => 'Yaml',
+        'yml' => 'Yaml',
         'yaml' => 'Yaml',
-        'xml'  => 'Xml'
+        'xml' => 'Xml'
     );
 
 
@@ -124,7 +124,7 @@ class Factory
         if (!$reader instanceof Reader\ReaderInterface) {
             // Namespace in variable needs fully qualified name
             $readerClass = __NAMESPACE__ . '\Reader\\' . $reader;
-            $reader      = new $readerClass();
+            $reader = new $readerClass();
         }
 
         return $reader;

@@ -94,7 +94,7 @@ class Configuration implements ConfigurationInterface
         }
 
         foreach ($this as $key => $value) {
-            $method   = 'set' . ucfirst($key);
+            $method = 'set' . ucfirst($key);
             $property = lcfirst($key);
 
             if (property_exists($object, $property) || isset($object->$property)) {
@@ -175,7 +175,7 @@ class Configuration implements ConfigurationInterface
     public function toArray()
     {
         $result = array();
-        $data   = $this->data;
+        $data = $this->data;
 
         foreach ($data as $key => $value) {
             if ($value instanceof ConfigurationInterface) {

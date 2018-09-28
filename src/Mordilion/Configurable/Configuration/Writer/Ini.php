@@ -63,8 +63,8 @@ class Ini implements WriterInterface
         }
 
         $noSection = array();
-        $result    = '';
-        $temp      = '';
+        $result = '';
+        $temp = '';
 
         foreach ($configuration as $section => $values) {
             if (!is_array($values)) {
@@ -100,25 +100,30 @@ class Ini implements WriterInterface
      */
     private function encodeKeyValuePair($key, $value, $enclose = false)
     {
-        $result      = '';
-        $keyPrefix   = ($enclose ? '[' : '');
-        $keySuffix   = ($enclose ? ']' : '');
-        $trueValues  = array(true, 'true', 'yes', 'y');
-        $falseValues = array(false, 'false', 'no', 'n');
+        $keyPrefix = ($enclose ? '[' : '');
+        $keySuffix = ($enclose ? ']' : '');
+        $trueValues = array(true, 'true', 'yes', 'on');
+        $falseValues = array(false, 'false', 'no', 'off');
 
         if (is_array($value)) {
+            $result = '';
+
             foreach ($value as $k => $v) {
                 $result .= $keyPrefix . $key . $keySuffix;
                 $result .= $this->encodeKeyValuePair($k, $v, true);
             }
-        } else if (is_numeric($value)) {
-            $result .= $keyPrefix . $key . $keySuffix . ' = ' . $value . PHP_EOL;
-        } else if (is_bool($value)) {
-            $result .= $keyPrefix . $key . $keySuffix . ' = ' . ($value ? 'true' : 'false') . PHP_EOL;
-        } else {
-            $result .= $keyPrefix . $key . $keySuffix . ' = "' . $value . '"' . PHP_EOL;
+
+            return $result;
+        } 
+
+        if (is_numeric($value)) {
+            return $keyPrefix . $key . $keySuffix . ' = ' . $value . PHP_EOL;
+        } 
+
+        if (is_bool($value)) {
+            return $keyPrefix . $key . $keySuffix . ' = ' . ($value ? 'true' : 'false') . PHP_EOL;
         }
 
-        return $result;
+        return $keyPrefix . $key . $keySuffix . ' = "' . $value . '"' . PHP_EOL;
     }
 }
