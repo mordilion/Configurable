@@ -23,7 +23,7 @@ interface DecoderInterface
      *
      * @param string $string
      *
-     * @return array|false
+     * @return array
      */
-    public function decode($string);
+    public function decode(string $string): array;
 }

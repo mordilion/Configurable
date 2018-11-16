@@ -32,7 +32,7 @@ class Xml implements ReaderInterface
      *
      * @var array
      */
-    private $decoderParameters = array();
+    private $decoderParameters = [];
 
 
     /**
@@ -44,7 +44,7 @@ class Xml implements ReaderInterface
     {
         if (function_exists('simplexml_load_string')) {
             // Set simplexml_load_string as decoder, which don't need parameters
-            $this->setDecoder(array(new SimpleXml(), 'decode'));
+            $this->setDecoder([new SimpleXml(), 'decode']);
         }
 
         if (class_exists('Symfony\Component\Serializer\Encoder\XmlEncoder')) {
@@ -52,17 +52,17 @@ class Xml implements ReaderInterface
             $decoder = new \Symfony\Component\Serializer\Encoder\XmlEncoder();
 
             // Set Symfony/XmlEncoder as decoder, which takes format as parameter
-            $this->setDecoder(array($decoder, 'decode'))
-                ->setDecoderParameters(array('xml'));
+            $this->setDecoder([$decoder, 'decode'])
+                ->setDecoderParameters(['xml']);
         }
     }
 
     /**
      * Returns the current decoder.
      *
-     * @return callable
+     * @return callable|null
      */
-    public function getDecoder()
+    public function getDecoder(): ?callable
     {
         return $this->decoder;
     }
@@ -72,7 +72,7 @@ class Xml implements ReaderInterface
      *
      * @return array
      */
-    public function getDecoderParameters()
+    public function getDecoderParameters(): array
     {
         return $this->decoderParameters;
     }
@@ -80,7 +80,7 @@ class Xml implements ReaderInterface
     /**
      * {@inheritdoc}
      */
-    public function loadFile($filename)
+    public function loadFile(string $filename): array
     {
         if (!is_readable($filename)) {
             throw new \RuntimeException('The file "' . $filename . '" is not readable.');
@@ -94,10 +94,10 @@ class Xml implements ReaderInterface
     /**
      * {@inheritdoc}
      */
-    public function loadString($string)
+    public function loadString(string $string): array
     {
         if (empty($string)) {
-            return array();
+            return [];
         }
 
         return $this->decode($string);
@@ -110,12 +110,8 @@ class Xml implements ReaderInterface
      *
      * @return Xml
      */
-    public function setDecoder($decoder)
+    public function setDecoder(callable $decoder): Xml
     {
-        if (!is_callable($decoder)) {
-            throw new \InvalidArgumentException('The provided decoder must be callable.');
-        }
-
         $this->decoder = $decoder;
 
         return $this;
@@ -128,7 +124,7 @@ class Xml implements ReaderInterface
      *
      * @return Xml
      */
-    public function setDecoderParameters(array $parameters)
+    public function setDecoderParameters(array $parameters): Xml
     {
         $this->decoderParameters = $parameters;
 
@@ -145,7 +141,7 @@ class Xml implements ReaderInterface
      *
      * @return array
      */
-    private function decode($xml)
+    private function decode(string $xml): array
     {
         $decoder = $this->getDecoder();
 
@@ -153,9 +149,9 @@ class Xml implements ReaderInterface
             throw new \RuntimeException('You didn\'t specify a decoder.');
         }
 
-        $data = call_user_func_array($decoder, array_merge(array($xml), $this->getDecoderParameters()));
+        $data = call_user_func_array($decoder, array_merge([$xml], $this->getDecoderParameters()));
 
-        if (!is_array($data) && !is_object($data)) {
+        if (!is_array($data)) {
             throw new \RuntimeException('The provided XML is not valid.');
         }
 

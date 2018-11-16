@@ -52,18 +52,16 @@ class YamlReaderTest extends TestCase
         $reader->loadFile(TEST_ROOT_PATH . '/not-readable.file');
     }
 
-    public function testLoadStringMethodReturnsAnEmptyArraForEmptyString()
+    public function testLoadStringMethodReturnsAnEmptyArrayForEmptyString()
     {
         $reader = new Yaml();
 
         $this->assertEquals($reader->loadString(''), array());
-        $this->assertEquals($reader->loadString(null), array());
-        $this->assertEquals($reader->loadString(false), array());
     }
 
     public function testSetDecoderMethodThrowsInvalidArgumentExceptionIfDecoderIsNotCallable()
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(\TypeError::class);
 
         $reader = new Yaml();
 

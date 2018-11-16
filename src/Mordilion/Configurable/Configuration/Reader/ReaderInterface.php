@@ -25,16 +25,16 @@ interface ReaderInterface
      *
      * @throws \RuntimeException if the file is not readable
      *
-     * @return array|false
+     * @return array|null
      */
-    public function loadFile($filename);
+    public function loadFile(string $filename): array;
 
     /**
      * Loads the configuration from the provided $string.
      *
      * @param string $string
      *
-     * @return array|false
+     * @return array|null
      */
-    public function loadString($string);
+    public function loadString(string$string): array;
 }

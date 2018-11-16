@@ -149,7 +149,7 @@ class FactoryTest extends TestCase
 
     public function testFactoryCreateThrowsInvalidArgumentExceptionIfNoStringIsProvided()
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(\TypeError::class);
 
         $configuration = Factory::create(null);
     }

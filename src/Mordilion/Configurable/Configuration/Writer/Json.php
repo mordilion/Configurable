@@ -23,7 +23,7 @@ class Json implements WriterInterface
     /**
      * {@inheritdoc}
      */
-    public function saveFile($configuration, $filename)
+    public function saveFile($configuration, string $filename): bool
     {
         if (!is_writeable($filename)) {
             throw new \RuntimeException('The file "' . $filename . '" is not writeable.');
@@ -37,7 +37,7 @@ class Json implements WriterInterface
     /**
      * {@inheritdoc}
      */
-    public function saveString($configuration)
+    public function saveString($configuration): string
     {
         return $this->encode($configuration);
     }
@@ -50,9 +50,9 @@ class Json implements WriterInterface
      * @throws \InvalidArgumentException if the provided configuration is not an array or an instance of ConfigurationInterface
      * @throws \RuntimeException if the decoding throwed some errors
      *
-     * @return array
+     * @return string
      */
-    private function encode($configuration)
+    private function encode($configuration): string
     {
         if ($configuration instanceof ConfigurationInterface) {
             $configuration = $configuration->toArray();

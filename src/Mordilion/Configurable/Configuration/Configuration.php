@@ -23,13 +23,13 @@ class Configuration implements ConfigurationInterface
      *
      * @var array
      */
-    protected $data = array();
+    protected $data = [];
 
 
     /**
      * {@inheritdoc}
      */
-    public function __construct($data = array())
+    public function __construct($data = [])
     {
         if (is_object($data) && !$data instanceof \Traversable) {
             if (method_exists($data, 'toArray')) {
@@ -63,7 +63,7 @@ class Configuration implements ConfigurationInterface
     /**
      * {@inheritdoc}
      */
-    public function __isset($name)
+    public function __isset($name): bool
     {
         return isset($this->data[$name]);
     }
@@ -71,7 +71,7 @@ class Configuration implements ConfigurationInterface
     /**
      * {@inheritdoc}
      */
-    public function __set($name, $value)
+    public function __set($name, $value): void
     {
         $this->set($name, $value);
     }
@@ -79,7 +79,7 @@ class Configuration implements ConfigurationInterface
     /**
      * {@inheritdoc}
      */
-    public function __unset($name)
+    public function __unset($name): void
     {
         unset($this->data[$name]);
     }
@@ -87,12 +87,8 @@ class Configuration implements ConfigurationInterface
     /**
      * {@inheritdoc}
      */
-    public function configure($object)
+    public function configure(Object $object): ConfigurationInterface
     {
-        if (!is_object($object)) {
-            throw new \InvalidArgumentException('The provided Object is not an Object!');
-        }
-
         foreach ($this as $key => $value) {
             $method = 'set' . ucfirst($key);
             $property = lcfirst($key);
@@ -112,7 +108,7 @@ class Configuration implements ConfigurationInterface
     /**
      * {@inheritdoc}
      */
-    public function count()
+    public function count(): int
     {
         return count($this->data);
     }
@@ -140,7 +136,7 @@ class Configuration implements ConfigurationInterface
     /**
      * {@inheritdoc}
      */
-    public function merge(ConfigurationInterface $configuration)
+    public function merge(ConfigurationInterface $configuration): ConfigurationInterface
     {
         foreach ($configuration as $key => $value) {
             if (isset($this->data[$key]) 
@@ -162,7 +158,7 @@ class Configuration implements ConfigurationInterface
     /**
      * {@inheritdoc}
      */
-    public function set($key, $value)
+    public function set($key, $value): ConfigurationInterface
     {
         $this->data[$key] = $value;
 
@@ -172,7 +168,7 @@ class Configuration implements ConfigurationInterface
     /**
      * {@inheritdoc}
      */
-    public function toArray()
+    public function toArray(): array
     {
         $result = array();
         $data = $this->data;

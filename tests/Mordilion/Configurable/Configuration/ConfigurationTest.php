@@ -100,7 +100,7 @@ class ConfigurationTest extends TestCase
 
     public function testConfigurationConfigureThrowsExceptionForNull()
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(\TypeError::class);
 
         $configuration = new Configuration(array(
             'param1' => 'Text'
@@ -111,7 +111,7 @@ class ConfigurationTest extends TestCase
 
     public function testConfigurationConfigureThrowsExceptionForString()
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(\TypeError::class);
 
         $configuration = new Configuration(array(
             'param1' => 'Text'
@@ -122,7 +122,7 @@ class ConfigurationTest extends TestCase
 
     public function testConfigurationConfigureThrowsExceptionForInteger()
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(\TypeError::class);
 
         $configuration = new Configuration(array(
             'param1' => 'Text'

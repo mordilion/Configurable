@@ -31,11 +31,11 @@ class Factory
      * @var array
      */
     protected static $identifiers = array(
-        'ini' => 'Ini',
-        'json' => 'Json',
-        'yml' => 'Yaml',
-        'yaml' => 'Yaml',
-        'xml' => 'Xml'
+        'ini' => Ini::class,
+        'json' => Json::class,
+        'yml' => Yaml::class,
+        'yaml' => Yaml::class,
+        'xml' => Xml::class
     );
 
 
@@ -43,18 +43,14 @@ class Factory
      * Creates a Configuration based on the provided $data. The $data can be a filename or a string.
      *
      * @param string $data
-     * @param string $identifier
+     * @param string|null $identifier
      *
      * @throws \InvalidArgumentException if the provided data is not a string
      *
      * @return Configuration
      */
-    public static function create($data, $identifier = null)
+    public static function create(string $data, ?string $identifier = null): Configuration
     {
-        if (!is_string($data)) {
-            throw new \InvalidArgumentException('The provided data must be a string or a filename.');
-        }
-
         if (strlen($data) <= PHP_MAXPATHLEN && is_file($data)) {
             return static::fromFile($data, $identifier);
         }
@@ -66,15 +62,15 @@ class Factory
      * Creates a Configuration based on the file by the provided $filename.
      *
      * @param string $filename
-     * @param string $identifier
+     * @param string|null $identifier
      *
      * @throws \InvalidArgumentException if the provided filename i missing an extension
      *
      * @return Configuration
      */
-    public static function fromFile($filename, $identifier = null)
+    public static function fromFile(string $filename, ?string $identifier): Configuration
     {
-        if ($identifier == null) {
+        if ($identifier === null) {
             $pathinfo = pathinfo($filename);
 
             if (!isset($pathinfo['extension'])) {
@@ -93,11 +89,11 @@ class Factory
      * Creates a Configuration based on the provided $string.
      *
      * @param string $string
-     * @param string $identifier
+     * @param string|null $identifier
      *
      * @return Configuration
      */
-    public static function fromString($string, $identifier)
+    public static function fromString(string $string, ?string $identifier): Configuration
     {
         $reader = static::getReader($identifier);
 
@@ -107,26 +103,20 @@ class Factory
     /**
      * Returns a reader for the provided $identifier.
      *
-     * @param string $identifier
+     * @param string|null $identifier
      *
      * @throws \RuntimeException if the provided $identifier is not valid
      *
      * @return ReaderInterface
      */
-    protected static function getReader($identifier)
+    protected static function getReader(?string $identifier): ReaderInterface
     {
         if (!isset(static::$identifiers[$identifier])) {
             throw new \RuntimeException('Unknown identifier "' . $identifier . '" for a configuration file.');
         }
 
-        $reader = static::$identifiers[$identifier];
+        $readerClass = static::$identifiers[$identifier];
 
-        if (!$reader instanceof Reader\ReaderInterface) {
-            // Namespace in variable needs fully qualified name
-            $readerClass = __NAMESPACE__ . '\Reader\\' . $reader;
-            $reader = new $readerClass();
-        }
-
-        return $reader;
+        return new $readerClass();
     }
 }

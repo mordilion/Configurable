@@ -42,12 +42,10 @@ class JsonReaderTest extends TestCase
         $reader->loadFile(TEST_ROOT_PATH . '/not-readable.file');
     }
 
-    public function testLoadStringMethodReturnsAnEmptyArraForEmptyString()
+    public function testLoadStringMethodReturnsAnEmptyArrayForEmptyString()
     {
         $reader = new Json();
 
         $this->assertEquals($reader->loadString(''), array());
-        $this->assertEquals($reader->loadString(null), array());
-        $this->assertEquals($reader->loadString(false), array());
     }
 }

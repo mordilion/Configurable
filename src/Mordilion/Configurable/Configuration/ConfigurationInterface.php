@@ -24,10 +24,8 @@ interface ConfigurationInterface extends \IteratorAggregate, \Countable
      * @param array|obejct $data
      *
      * @throws \InvalidArgumentException if the provided data are not an array or not an object with the toArray() method
-     *
-     * @return void
      */
-    public function __construct($data = array());
+    public function __construct($data);
 
     /**
      * Magic __get-Method.
@@ -45,7 +43,7 @@ interface ConfigurationInterface extends \IteratorAggregate, \Countable
      *
      * @return bool
      */
-    public function __isset($name);
+    public function __isset($name): bool;
 
     /**
      * Magic __set-Method.
@@ -55,7 +53,7 @@ interface ConfigurationInterface extends \IteratorAggregate, \Countable
      *
      * @return void
      */
-    public function __set($name, $value);
+    public function __set($name, $value): void;
 
     /**
      * Magic __unset-Method.
@@ -65,7 +63,7 @@ interface ConfigurationInterface extends \IteratorAggregate, \Countable
      *
      * @return void
      */
-    public function __unset($name);
+    public function __unset($name): void;
 
     /**
      * Configures the provided object with the current data.
@@ -76,12 +74,12 @@ interface ConfigurationInterface extends \IteratorAggregate, \Countable
      *
      * @return ConfigurationInterface
      */
-    public function configure($object);
+    public function configure(Object $object): ConfigurationInterface;
 
     /**
      * {@inheritdoc}
      */
-    public function count();
+    public function count(): int;
 
     /**
      * Returns the value for the provided $key if exists.
@@ -105,7 +103,7 @@ interface ConfigurationInterface extends \IteratorAggregate, \Countable
      *
      * @return ConfigurationInterface
      */
-    public function merge(ConfigurationInterface $configuration);
+    public function merge(ConfigurationInterface $configuration): ConfigurationInterface;
 
     /**
      * Sets the $value for the provided $key.
@@ -115,12 +113,12 @@ interface ConfigurationInterface extends \IteratorAggregate, \Countable
      *
      * @return ConfigurationInterface
      */
-    public function set($key, $value);
+    public function set($key, $value): ConfigurationInterface;
 
     /**
      * Returns the current configuration as an array.
      *
      * @return array
      */
-    public function toArray();
+    public function toArray(): array;
 }

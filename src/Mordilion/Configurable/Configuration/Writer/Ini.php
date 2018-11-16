@@ -23,7 +23,7 @@ class Ini implements WriterInterface
     /**
      * {@inheritdoc}
      */
-    public function saveFile($configuration, $filename)
+    public function saveFile($configuration, string $filename): bool
     {
         if (!is_writeable($filename)) {
             throw new \RuntimeException('The file "' . $filename . '" is not writeable.');
@@ -37,7 +37,7 @@ class Ini implements WriterInterface
     /**
      * {@inheritdoc}
      */
-    public function saveString($configuration)
+    public function saveString($configuration): string
     {
         return $this->encode($configuration);
     }
@@ -50,9 +50,9 @@ class Ini implements WriterInterface
      * @throws \InvalidArgumentException if the provided configuration is not an array or an instance of ConfigurationInterface
      * @throws \RuntimeException if the decoding throwed some errors
      *
-     * @return array
+     * @return string
      */
-    private function encode($configuration)
+    private function encode($configuration): string
     {
         if ($configuration instanceof ConfigurationInterface) {
             $configuration = $configuration->toArray();
@@ -62,7 +62,7 @@ class Ini implements WriterInterface
             throw new \InvalidArgumentException('The provided configuration is not an array or an instance of ConfigurationInterface.');
         }
 
-        $noSection = array();
+        $noSection = [];
         $result = '';
         $temp = '';
 
@@ -93,12 +93,12 @@ class Ini implements WriterInterface
      * Encodes the provided $key and $value into a assignment string.
      *
      * @param string $key
-     * @param string $value
+     * @param array|string $value
      * @param boolean $enclose
      *
      * @return string
      */
-    private function encodeKeyValuePair($key, $value, $enclose = false)
+    private function encodeKeyValuePair(string $key, $value, bool $enclose = false): string
     {
         $keyPrefix = ($enclose ? '[' : '');
         $keySuffix = ($enclose ? ']' : '');

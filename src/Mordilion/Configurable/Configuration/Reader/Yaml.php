@@ -30,7 +30,7 @@ class Yaml implements ReaderInterface
      *
      * @var array
      */
-    private $decoderParameters = array();
+    private $decoderParameters = [];
 
 
     /**
@@ -56,9 +56,9 @@ class Yaml implements ReaderInterface
     /**
      * Returns the current decoder.
      *
-     * @return callable
+     * @return callable|null
      */
-    public function getDecoder()
+    public function getDecoder(): ?callable
     {
         return $this->decoder;
     }
@@ -68,7 +68,7 @@ class Yaml implements ReaderInterface
      *
      * @return array
      */
-    public function getDecoderParameters()
+    public function getDecoderParameters(): array
     {
         return $this->decoderParameters;
     }
@@ -76,7 +76,7 @@ class Yaml implements ReaderInterface
     /**
      * {@inheritdoc}
      */
-    public function loadFile($filename)
+    public function loadFile(string $filename): array
     {
         if (!is_readable($filename)) {
             throw new \RuntimeException('The file "' . $filename . '" is not readable.');
@@ -90,10 +90,10 @@ class Yaml implements ReaderInterface
     /**
      * {@inheritdoc}
      */
-    public function loadString($string)
+    public function loadString(string $string): array
     {
         if (empty($string)) {
-            return array();
+            return [];
         }
 
         return $this->decode($string);
@@ -106,12 +106,8 @@ class Yaml implements ReaderInterface
      *
      * @return Yaml
      */
-    public function setDecoder($decoder)
+    public function setDecoder(callable $decoder): Yaml
     {
-        if (!is_callable($decoder)) {
-            throw new \InvalidArgumentException('The provided decoder must be callable.');
-        }
-
         $this->decoder = $decoder;
 
         return $this;
@@ -122,9 +118,9 @@ class Yaml implements ReaderInterface
      *
      * @param array
      *
-     * @return Xml
+     * @return Yaml
      */
-    public function setDecoderParameters(array $parameters)
+    public function setDecoderParameters(array $parameters): Yaml
     {
         $this->decoderParameters = $parameters;
 
@@ -141,7 +137,7 @@ class Yaml implements ReaderInterface
      *
      * @return array
      */
-    private function decode($yaml)
+    private function decode(string $yaml): array
     {
         $decoder = $this->getDecoder();
 
@@ -149,7 +145,7 @@ class Yaml implements ReaderInterface
             throw new \RuntimeException('You didn\'t specify a decoder.');
         }
 
-        $data = call_user_func_array($decoder, array_merge(array($yaml), $this->getDecoderParameters()));
+        $data = call_user_func_array($decoder, array_merge([$yaml], $this->getDecoderParameters()));
 
         if (!is_array($data) && !is_object($data)) {
             throw new \RuntimeException('The provided YAML is not valid.');

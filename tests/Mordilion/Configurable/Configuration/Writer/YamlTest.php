@@ -102,7 +102,7 @@ class YamlWriterTest extends TestCase
 
     public function testSetEncoderThrowsAnInvaludArgumentExceptionIfSomethingNotCallableIsProvided()
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(\TypeError::class);
 
         $writer = new YamlWriter();
 

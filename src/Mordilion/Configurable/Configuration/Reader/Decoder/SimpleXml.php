@@ -27,9 +27,9 @@ class SimpleXml implements DecoderInterface
      *
      * @return array
      */
-    public function decode($xml)
+    public function decode(string $xml): array
     {
-        return $this->castToArray((array) simplexml_load_string($xml));
+        return $this->castToArray((array)simplexml_load_string($xml));
     }
 
     /**
@@ -39,7 +39,7 @@ class SimpleXml implements DecoderInterface
      *
      * @return array
      */
-    private function castToArray($input)
+    private function castToArray($input): array
     {
         $result = array();
 

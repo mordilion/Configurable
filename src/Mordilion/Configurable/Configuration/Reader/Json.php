@@ -21,7 +21,7 @@ class Json implements ReaderInterface
     /**
      * {@inheritdoc}
      */
-    public function loadFile($filename)
+    public function loadFile(string $filename): array
     {
         if (!is_readable($filename)) {
             throw new \RuntimeException('The file "' . $filename . '" is not readable.');
@@ -35,10 +35,10 @@ class Json implements ReaderInterface
     /**
      * {@inheritdoc}
      */
-    public function loadString($string)
+    public function loadString(string $string): array
     {
         if (empty($string)) {
-            return array();
+            return [];
         }
 
         return $this->decode($string);
@@ -54,11 +54,11 @@ class Json implements ReaderInterface
      *
      * @return array
      */
-    private function decode($json)
+    private function decode(string $json): array
     {
         $data = json_decode($json, true);
 
-        if (!is_array($data) && !is_object($data)) {
+        if (!is_array($data)) {
             throw new \InvalidArgumentException('The provided JSON is not valid.');
         }
 

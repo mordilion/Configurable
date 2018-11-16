@@ -32,7 +32,7 @@ class Yaml implements WriterInterface
      *
      * @var array
      */
-    private $encoderParameters = array();
+    private $encoderParameters = [];
 
 
     /**
@@ -42,21 +42,25 @@ class Yaml implements WriterInterface
      */
     public function __construct()
     {
+        if (function_exists('yaml_emit')) {
+            $this->setEncoder('yaml_emit');
+        }
+
+        if (function_exists('spyc_dump')) {
+            $this->setEncoder('spyc_dump');
+        } 
+
         if (class_exists('Symfony\Component\Yaml\Yaml')) {
             $this->setEncoder(array('Symfony\Component\Yaml\Yaml', 'dump'));
-        } else if (function_exists('spyc_dump')) {
-            $this->setEncoder('spyc_dump');
-        } else if (function_exists('yaml_emit')) {
-            $this->setEncoder('yaml_emit');
         }
     }
 
     /**
      * Returns the current encoder.
      *
-     * @return callable
+     * @return callable|null
      */
-    public function getEncoder()
+    public function getEncoder(): ?callable
     {
         return $this->encoder;
     }
@@ -66,7 +70,7 @@ class Yaml implements WriterInterface
      *
      * @return array
      */
-    public function getEncoderParameters()
+    public function getEncoderParameters(): array
     {
         return $this->encoderParameters;
     }
@@ -74,7 +78,7 @@ class Yaml implements WriterInterface
     /**
      * {@inheritdoc}
      */
-    public function saveFile($configuration, $filename)
+    public function saveFile($configuration, string $filename): bool
     {
         if (!is_writeable($filename)) {
             throw new \RuntimeException('The file "' . $filename . '" is not writeable.');
@@ -88,7 +92,7 @@ class Yaml implements WriterInterface
     /**
      * {@inheritdoc}
      */
-    public function saveString($configuration)
+    public function saveString($configuration): string
     {
         return $this->encode($configuration);
     }
@@ -100,7 +104,7 @@ class Yaml implements WriterInterface
      *
      * @return Yaml
      */
-    public function setEncoder($encoder)
+    public function setEncoder(callable $encoder): Yaml
     {
         if (!is_callable($encoder)) {
             throw new \InvalidArgumentException('The provided encoder must be callable.');
@@ -118,7 +122,7 @@ class Yaml implements WriterInterface
      *
      * @return Yaml
      */
-    public function setEncoderParameters(array $parameters)
+    public function setEncoderParameters(array $parameters): Yaml
     {
         $this->encoderParameters = $parameters;
 
@@ -134,9 +138,9 @@ class Yaml implements WriterInterface
      * @throws \RuntimeException if a encoder is not specified
      * @throws \RuntimeException if the encoder returned not a valid YAML
      *
-     * @return array
+     * @return string
      */
-    private function encode($configuration)
+    private function encode($configuration): string
     {
         if ($configuration instanceof ConfigurationInterface) {
             $configuration = $configuration->toArray();

@@ -11,6 +11,8 @@
 
 namespace Mordilion\Configurable\Configuration\Writer;
 
+use Mordilion\Configurable\Configuration\ConfigurationInterface;
+
 /**
  * Mordilion\Configurable Writer-Interface.
  *
@@ -21,21 +23,21 @@ interface WriterInterface
     /**
      * Saves the $configuration into the file by the provided $filename.
      *
-     * @param array|Mordilion\Configurable\Configuration\ConfigurationInterface $configuration
+     * @param array|ConfigurationInterface $configuration
      * @param string $filename
      *
      * @throws \RuntimeException if the file is not writeable
      *
-     * @return boolean
+     * @return bool
      */
-    public function saveFile($configuration, $filename);
+    public function saveFile($configuration, string $filename): bool;
 
     /**
      * Saves the $configuration into a string.
      *
-     * @param array|Mordilion\Configurable\Configuration\ConfigurationInterface $configuration
+     * @param array|ConfigurationInterface $configuration
      *
      * @return string
      */
-    public function saveString($configuration);
+    public function saveString($configuration): string;
 }
