@@ -87,25 +87,24 @@ class Configuration implements ConfigurationInterface
     /**
      * {@inheritdoc}
      */
-    public function configure(Object $object): ConfigurationInterface
+    public function configure(Object &$object): ConfigurationInterface
     {
         foreach ($this as $key => $value) {
             $method = 'set' . ucfirst($key);
             $property = lcfirst($key);
             $reflection = new \ReflectionClass($object);
 
-            if (method_exists($object, $method)) {
+            if ($reflection->hasMethod($method)) {
                 $reflectionMethod = $reflection->getMethod($method);
                 $reflectionMethod->setAccessible(true);
                 $reflectionMethod->invoke($object, $value);
                 continue;
             }
 
-            if (property_exists($object, $property) || isset($object->$property)) {
+            if ($reflection->hasProperty($property) || isset($object->$property)) {
                 $reflectionProperty = $reflection->getProperty($property);
                 $reflectionProperty->setAccessible(true);
                 $reflectionProperty->setValue($object, $value);
-                continue;
             }
         }
 
