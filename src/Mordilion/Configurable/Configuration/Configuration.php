@@ -92,13 +92,18 @@ class Configuration implements ConfigurationInterface
         foreach ($this as $key => $value) {
             $method = 'set' . ucfirst($key);
             $property = lcfirst($key);
-
-            if (property_exists($object, $property) || isset($object->$property)) {
-                $object->$property = $value;
-            }
+            $reflection = new \ReflectionClass($object);
 
             if (method_exists($object, $method)) {
-                $object->$method($value);
+                $reflectionMethod = $reflection->getMethod($method);
+                $reflectionMethod->setAccessible(true);
+                $reflectionMethod->invoke($object, $value);
+            }
+
+            if (property_exists($object, $property) || isset($object->$property)) {
+                $reflectionProperty = $reflection->getProperty($property);
+                $reflectionProperty->setAccessible(true);
+                $reflectionProperty->setValue($object, $value);
             }
         }
 
