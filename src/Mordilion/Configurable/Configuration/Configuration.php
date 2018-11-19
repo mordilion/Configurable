@@ -87,7 +87,7 @@ class Configuration implements ConfigurationInterface
     /**
      * {@inheritdoc}
      */
-    public function configure(Object &$object): ConfigurationInterface
+    public function configure(Object $object): ConfigurationInterface
     {
         foreach ($this as $key => $value) {
             $method = 'set' . ucfirst($key);
