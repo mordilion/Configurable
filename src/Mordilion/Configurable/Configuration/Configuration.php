@@ -98,12 +98,14 @@ class Configuration implements ConfigurationInterface
                 $reflectionMethod = $reflection->getMethod($method);
                 $reflectionMethod->setAccessible(true);
                 $reflectionMethod->invoke($object, $value);
+                continue;
             }
 
             if (property_exists($object, $property) || isset($object->$property)) {
                 $reflectionProperty = $reflection->getProperty($property);
                 $reflectionProperty->setAccessible(true);
                 $reflectionProperty->setValue($object, $value);
+                continue;
             }
         }
 
